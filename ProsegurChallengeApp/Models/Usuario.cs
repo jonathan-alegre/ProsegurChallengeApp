@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProsegurChallengeApp.Models
 {
@@ -7,10 +8,10 @@ namespace ProsegurChallengeApp.Models
         [Key]
         public Guid Id { get; set; }
 
-        [MaxLength(20)]
+        [Required(ErrorMessage ="El Nombre es obligatorio.")]        
         public string Nombre { get; set; }
 
-        [MaxLength( 50 )]
-        public string Password { get; set; }   
+        [Required(ErrorMessage = "La Contraseña es obligatoria.")]
+        public string Password { get; set; }
     }
 }

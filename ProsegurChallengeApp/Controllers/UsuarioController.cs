@@ -38,30 +38,34 @@ namespace ProsegurChallengeApp.Controllers
         //    return Content( "Usuarios Creados" );
         //}
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         public IActionResult Index()
         {
             return View();
         }
 
         [HttpPost]
-        [Route("CrearUsuario")]
-        public IActionResult CrearUsuario( [FromForm] Usuario usuario)
-        {                        
-            usuario.Id= Guid.NewGuid();
 
-            _dbContext.Usuarios.Add(usuario);            
-            _dbContext.SaveChanges();
+        public async Task<IActionResult> CrearUsuario([FromForm] Usuario usuario)
+        {
+            if (ModelState.IsValid)
+            {
+                usuario.Id = Guid.NewGuid();
 
-            return RedirectToAction( "Index", "Index" );
+                _dbContext.Usuarios.Add(usuario);
+                await _dbContext.SaveChangesAsync();
+
+                return RedirectToAction("Index", "Index");
+            }
+
+            return View();
         }
 
-        //[HttpGet]
-        //[Route("GetUsuariosList")]
-        //public async Task<IActionResult> GetUsuariosList()
-        //{
-        //    return Ok(await _dbContext.Usuarios.ToListAsync());
-        //}
-
-        
+        [HttpGet]
+        [Route("GetUsuariosList")]
+        public async Task<IActionResult> GetUsuariosList()
+        {
+            return Ok(await _dbContext.Usuarios.ToListAsync());
+        }
     }
 }
