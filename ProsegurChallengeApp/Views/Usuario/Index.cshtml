@@ -1,0 +1,36 @@
+﻿@{
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Crear Usuario";
+}
+
+@model ProsegurChallengeApp.Models.Usuario
+
+<h1>CrearUsuario</h1>
+
+<h4>Usuario</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div class="form-group">
+                <label>Nombre Usuario</label>
+                <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese Nombre" name="Nombre">                
+            </div>
+            <div class="form-group">
+                <label>Contraseña</label>
+                <input type="password" class="form-control" id="txtPassword" placeholder="Ingrese Contraseña" name="Password">
+            </div>
+            @*<div class="form-group">
+                <label for="Password">Repetir Contraseña</label>
+                <input type="password" class="form-control" id="txtFValidarPassword" placeholder="Repita Contraseña">
+            </div>*@
+            <button type="submit" class="btn btn-primary">Crear</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync( "_ValidationScriptsPartial" );
+    }
+}
