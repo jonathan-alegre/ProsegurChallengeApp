@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ProsegurChallengeApp.DataModel
+namespace ProsegurChallengeApp.Models
 {
     public class Usuario
     {

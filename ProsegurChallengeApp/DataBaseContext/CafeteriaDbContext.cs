@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ProsegurChallengeApp.DataModel;
+using ProsegurChallengeApp.Models;
 
 namespace ProsegurChallengeApp.DataBaseContext
 {
