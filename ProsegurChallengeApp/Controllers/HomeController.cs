@@ -11,16 +11,17 @@ namespace ProsegurChallengeApp.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        public async Task<IActionResult> Salir()
-        {
-            await HttpContext.SignOutAsync( CookieAuthenticationDefaults.AuthenticationScheme );
-            return RedirectToAction( "Login", "Cuenta" );
-        }
-
+        [Route( "Index" )]
         public IActionResult Index()
         {
             return View();
         }
+
+        public async Task<IActionResult> Salir()
+        {
+            await HttpContext.SignOutAsync( CookieAuthenticationDefaults.AuthenticationScheme );
+            return RedirectToAction( "Login" , "Cuenta" );
+        }       
 
         public IActionResult Privacy()
         {

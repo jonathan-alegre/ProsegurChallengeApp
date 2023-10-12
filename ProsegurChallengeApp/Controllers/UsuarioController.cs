@@ -39,13 +39,14 @@ namespace ProsegurChallengeApp.Controllers
         //}
 
         [ApiExplorerSettings( IgnoreApi = true )]
+        [Route("Index")]
         public IActionResult Index()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> CrearUsuario( [FromForm] Usuario usuario )
+        public async Task<IActionResult> CrearUsuario( [FromForm] UsuarioCrear usuario )
         {
             if ( ModelState.IsValid )
             {
@@ -54,7 +55,7 @@ namespace ProsegurChallengeApp.Controllers
                 _dbContext.Usuarios.Add( usuario );
                 await _dbContext.SaveChangesAsync();
 
-                return RedirectToAction( "Index", "Index" );
+                return RedirectToAction( "Index", "Home" );
             }
 
             return View();
@@ -69,9 +70,22 @@ namespace ProsegurChallengeApp.Controllers
 
         [HttpGet]
         [Route( "ValidarUsuario" )]
-        public Usuario ValidarUsuario( string nombre, string password )
+        public Usuario? ValidarUsuario( string nombre, string password )
         {
-            return _dbContext.Usuarios.FirstOrDefault( u => u.Nombre == nombre && u.Password == password );
+            UsuarioCrear? usuario = _dbContext.Usuarios.FirstOrDefault( u => u.Nombre == nombre && u.Password == password );
+
+
+            if ( usuario != null )
+            {
+                Usuario usuarioLogin = new Usuario();
+                usuarioLogin.Id = usuario.Id;
+                usuarioLogin.Nombre = usuario.Nombre;
+                usuarioLogin.Password = usuario.Password;
+
+                return usuarioLogin;
+            }
+
+            return null;
         }
     }
 }

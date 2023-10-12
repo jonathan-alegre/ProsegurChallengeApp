@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProsegurChallengeApp.Models
 {
-    public class Usuario
+    public class UsuarioCrear
     {
         [Key]
         public Guid Id { get; set; }
@@ -17,9 +17,10 @@ namespace ProsegurChallengeApp.Models
         [Required( ErrorMessage = "La Contraseña es obligatoria." )]
         [MaxLength( 30 )]
         [StringLength( 30, ErrorMessage = "La contraseña no puede contener más de 30 caracteres" )]
-        public string Password { get; set; }        
+        public string Password { get; set; }
 
         [NotMapped]
-        public bool MantenerActivo { get; set; }
+        [Compare( "Password", ErrorMessage = "Las Contraseñas ingresadas deben ser iguales" )]
+        public string ConfirmaPassword { get; set; }
     }
 }

@@ -1,7 +1,6 @@
 ﻿@model ProsegurChallengeApp.Models.Usuario
 
-@{
-    Layout = "~/Pages/Shared/_Layout.cshtml";
+@{    
     ViewData["Title"] = "Login";
 }
 
@@ -27,9 +26,10 @@
                     <input type="checkbox" asp-for="MantenerActivo" /> Mantener sesión activa (1 hora)
                 </label>
             </div>
-            <button type="submit" class="btn btn-primary">Ingresar</button>
+            <button type="submit" class="btn btn-primary">Ingresar</button>            
             <label class="alert-danger">@ViewBag.Error</label>
         </form>
+        <a formnovalidate="formnovalidate" class="link-primary" onclick="window.location.href='@Url.Action("Index","Usuario")'">Crear Usuario</a>
     </div>
 </div>
 

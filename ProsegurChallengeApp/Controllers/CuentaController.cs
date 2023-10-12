@@ -19,26 +19,27 @@ namespace ProsegurChallengeApp.Controllers
             _dbContext = dbContext;
         }
 
-        [HttpGet]
+        [Route("Login")]
         public IActionResult Login()
         {
             ClaimsPrincipal c = HttpContext.User;
             if ( c.Identity != null )
             {
                 if ( c.Identity.IsAuthenticated )
-                    return RedirectToAction( "Index", "Index" );
+                    return RedirectToAction( "Index", "Home" );
             }
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login( Usuario usuario )
+        [Route( "Login" )]
+        public async Task<IActionResult> Login( [FromForm] Usuario usuario )
         {
             try
             {
                 UsuarioController usuarioController = new UsuarioController( _dbContext );
 
-                Usuario validaUsuario = usuarioController.ValidarUsuario( usuario.Nombre, usuario.Password );
+                Usuario? validaUsuario = usuarioController.ValidarUsuario( usuario.Nombre, usuario.Password );
 
                 if ( validaUsuario != null )
                 {
