@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProsegurChallengeApp.DataBaseContext;
@@ -53,7 +54,11 @@ namespace ProsegurChallengeApp.Controllers
                 Usuario nuevoUsuario = new Usuario();
                 nuevoUsuario.Id = Guid.NewGuid();
                 nuevoUsuario.Nombre = usuario.Nombre;
-                nuevoUsuario.Password = usuario.Password;
+                nuevoUsuario.Password = usuario.Password;                                
+
+                var managerUsuario = WebApplication.CreateBuilder().Build().Services.CreateScope().ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+                managerUsuario.AddToRoleAsync( nuevoUsuario, "Usuario" );
 
                 _dbContext.Usuarios.Add( nuevoUsuario );
                 await _dbContext.SaveChangesAsync();

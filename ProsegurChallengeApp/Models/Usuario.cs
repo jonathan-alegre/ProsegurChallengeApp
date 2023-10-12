@@ -1,10 +1,12 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProsegurChallengeApp.Models
 {
-    public class Usuario
+    public class Usuario: IdentityUser
     {
         [Key]
         public Guid Id { get; set; }
@@ -20,6 +22,6 @@ namespace ProsegurChallengeApp.Models
         public string Password { get; set; }        
 
         [NotMapped]
-        public bool MantenerActivo { get; set; }
+        public bool MantenerActivo { get; set; }        
     }
 }
