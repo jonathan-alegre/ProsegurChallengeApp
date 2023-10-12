@@ -7,12 +7,12 @@ using ProsegurChallengeApp.Models;
 namespace ProsegurChallengeApp.Controllers
 {
     [ApiController]
-    [Route("Usuario")]
+    [Route( "Usuario" )]
     public class UsuarioController : Controller
     {
         private readonly CafeteriaDbContext _dbContext;
 
-        public UsuarioController(CafeteriaDbContext dbContext)
+        public UsuarioController( CafeteriaDbContext dbContext )
         {
             _dbContext = dbContext;
         }
@@ -38,34 +38,40 @@ namespace ProsegurChallengeApp.Controllers
         //    return Content( "Usuarios Creados" );
         //}
 
-        [ApiExplorerSettings(IgnoreApi = true)]
+        [ApiExplorerSettings( IgnoreApi = true )]
         public IActionResult Index()
         {
             return View();
         }
 
         [HttpPost]
-
-        public async Task<IActionResult> CrearUsuario([FromForm] Usuario usuario)
+        public async Task<IActionResult> CrearUsuario( [FromForm] Usuario usuario )
         {
-            if (ModelState.IsValid)
+            if ( ModelState.IsValid )
             {
                 usuario.Id = Guid.NewGuid();
 
-                _dbContext.Usuarios.Add(usuario);
+                _dbContext.Usuarios.Add( usuario );
                 await _dbContext.SaveChangesAsync();
 
-                return RedirectToAction("Index", "Index");
+                return RedirectToAction( "Index", "Index" );
             }
 
             return View();
         }
 
         [HttpGet]
-        [Route("GetUsuariosList")]
+        [Route( "GetUsuariosList" )]
         public async Task<IActionResult> GetUsuariosList()
         {
-            return Ok(await _dbContext.Usuarios.ToListAsync());
+            return Ok( await _dbContext.Usuarios.ToListAsync() );
+        }
+
+        [HttpGet]
+        [Route( "ValidarUsuario" )]
+        public Usuario ValidarUsuario( string nombre, string password )
+        {
+            return _dbContext.Usuarios.FirstOrDefault( u => u.Nombre == nombre && u.Password == password );
         }
     }
 }
