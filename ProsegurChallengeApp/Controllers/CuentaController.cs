@@ -11,7 +11,7 @@ namespace ProsegurChallengeApp.Controllers
     [ApiController]
     [Route( "Cuenta" )]
     public class CuentaController : Controller
-    {
+    { 
         private readonly CafeteriaDbContext _dbContext;
 
         public CuentaController( CafeteriaDbContext dbContext )

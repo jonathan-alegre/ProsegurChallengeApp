@@ -17,6 +17,7 @@ namespace ProsegurChallengeApp.Controllers
             return View();
         }
 
+        [Route( "Salir" )]
         public async Task<IActionResult> Salir()
         {
             await HttpContext.SignOutAsync( CookieAuthenticationDefaults.AuthenticationScheme );

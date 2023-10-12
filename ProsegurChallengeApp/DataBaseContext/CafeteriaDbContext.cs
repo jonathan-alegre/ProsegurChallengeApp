@@ -5,7 +5,7 @@ namespace ProsegurChallengeApp.DataBaseContext
 {
     public class CafeteriaDbContext : DbContext
     {
-        public DbSet<UsuarioCrear> Usuarios { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

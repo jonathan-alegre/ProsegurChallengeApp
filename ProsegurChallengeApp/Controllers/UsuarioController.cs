@@ -50,9 +50,12 @@ namespace ProsegurChallengeApp.Controllers
         {
             if ( ModelState.IsValid )
             {
-                usuario.Id = Guid.NewGuid();
+                Usuario nuevoUsuario = new Usuario();
+                nuevoUsuario.Id = Guid.NewGuid();
+                nuevoUsuario.Nombre = usuario.Nombre;
+                nuevoUsuario.Password = usuario.Password;
 
-                _dbContext.Usuarios.Add( usuario );
+                _dbContext.Usuarios.Add( nuevoUsuario );
                 await _dbContext.SaveChangesAsync();
 
                 return RedirectToAction( "Index", "Home" );
@@ -72,20 +75,7 @@ namespace ProsegurChallengeApp.Controllers
         [Route( "ValidarUsuario" )]
         public Usuario? ValidarUsuario( string nombre, string password )
         {
-            UsuarioCrear? usuario = _dbContext.Usuarios.FirstOrDefault( u => u.Nombre == nombre && u.Password == password );
-
-
-            if ( usuario != null )
-            {
-                Usuario usuarioLogin = new Usuario();
-                usuarioLogin.Id = usuario.Id;
-                usuarioLogin.Nombre = usuario.Nombre;
-                usuarioLogin.Password = usuario.Password;
-
-                return usuarioLogin;
-            }
-
-            return null;
+            return _dbContext.Usuarios.FirstOrDefault( u => u.Nombre == nombre && u.Password == password );            
         }
     }
 }
