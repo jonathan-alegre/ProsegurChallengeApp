@@ -19,6 +19,7 @@ namespace ProsegurChallengeApp.Controllers
             _dbContext = dbContext;
         }
 
+        [ApiExplorerSettings( IgnoreApi = true )]
         [Route("Login")]
         public IActionResult Login()
         {
@@ -33,6 +34,7 @@ namespace ProsegurChallengeApp.Controllers
 
         [HttpPost]
         [Route( "Login" )]
+        [ApiExplorerSettings( IgnoreApi = true )]
         public async Task<IActionResult> Login( [FromForm] Usuario usuario )
         {
             try
@@ -75,6 +77,7 @@ namespace ProsegurChallengeApp.Controllers
             }
         }
 
+        [ApiExplorerSettings( IgnoreApi = true )]
         public IActionResult Details( int id )
         {
             return View();

@@ -3,6 +3,11 @@ using Microsoft.AspNetCore.Identity;
 using ProsegurChallengeApp.Context;
 using Microsoft.EntityFrameworkCore;
 using ProsegurChallengeApp.Models;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using ProsegurChallengeApp.Seeders;
+using System.Drawing.Text;
+using System.Security.Cryptography;
 
 var builder = WebApplication.CreateBuilder( args );
 
@@ -21,6 +26,7 @@ builder.Services.AddDbContext<CafeteriaDbContext>();
 builder.Services.AddAuthentication( CookieAuthenticationDefaults.AuthenticationScheme ).AddCookie(
     options => options.LoginPath = "/Cuenta/Login"
 );
+
 
 var app = builder.Build();
 
@@ -66,6 +72,13 @@ app.MapControllerRoute(
 //            Usuario usuario = new Usuario();
 //        }
 //    }
+//}
+
+
+//using ( var scope = app.Services.CreateScope() )
+//{
+//    var context = scope.ServiceProvider.GetService<CafeteriaDbContext>();
+//    DataSeeder.SeedUsuarios( context );
 //}
 
 app.Run();
