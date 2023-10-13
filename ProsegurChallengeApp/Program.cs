@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
-using ProsegurChallengeApp.DataBaseContext;
+using ProsegurChallengeApp.Context;
 using Microsoft.EntityFrameworkCore;
 using ProsegurChallengeApp.Models;
 

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ProsegurChallengeApp.DataBaseContext;
+using ProsegurChallengeApp.Context;
 using ProsegurChallengeApp.Models;
 using System.Security.Claims;
 

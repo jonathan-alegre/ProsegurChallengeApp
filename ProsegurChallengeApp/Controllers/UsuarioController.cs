@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ProsegurChallengeApp.DataBaseContext;
+using ProsegurChallengeApp.Context;
 using ProsegurChallengeApp.Models;
 
 namespace ProsegurChallengeApp.Controllers
