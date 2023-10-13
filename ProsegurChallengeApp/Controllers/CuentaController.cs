@@ -59,7 +59,7 @@ namespace ProsegurChallengeApp.Controllers
                         p.ExpiresUtc = DateTimeOffset.UtcNow.AddHours( 1 );
 
                     await HttpContext.SignInAsync( CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal( ci ), p );
-                    return RedirectToAction( "Index", "Index" );
+                    return RedirectToAction( "Index", "Home" );
                 }
                 else
                 {

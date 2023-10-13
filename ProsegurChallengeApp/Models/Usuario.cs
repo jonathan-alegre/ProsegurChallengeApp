@@ -19,7 +19,10 @@ namespace ProsegurChallengeApp.Models
         [Required( ErrorMessage = "La Contraseña es obligatoria." )]
         [MaxLength( 30 )]
         [StringLength( 30, ErrorMessage = "La contraseña no puede contener más de 30 caracteres" )]
-        public string Password { get; set; }        
+        public string Password { get; set; }
+        
+        [MaxLength( 20 )]        
+        public string Rol { get; set; }
 
         [NotMapped]
         public bool MantenerActivo { get; set; }        

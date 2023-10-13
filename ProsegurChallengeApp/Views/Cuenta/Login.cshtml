@@ -29,7 +29,7 @@
             <button type="submit" class="btn btn-primary">Ingresar</button>            
             <label class="alert-danger">@ViewBag.Error</label>
         </form>
-        <a formnovalidate="formnovalidate" class="link-primary" onclick="window.location.href='@Url.Action("Index","Usuario")'">Crear Usuario</a>
+        <a formnovalidate="formnovalidate" class="link-primary" asp-controller="Usuario" asp-action="Index">Crear Usuario</a>
     </div>
 </div>
 
