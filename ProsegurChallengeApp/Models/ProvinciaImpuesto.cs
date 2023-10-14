@@ -5,13 +5,14 @@ namespace ProsegurChallengeApp.Models
 {
     public class ProvinciaImpuesto
     {
+        [Key]
         [Required]
-        public Guid IdProvincia { get; set; }
+        public int IdProvincia { get; set; }
 
         [ForeignKey("IdProvincia")]
         public virtual Provincia Provincia { get; set; }
 
         [Required]
-        public decimal ImporteImpuesto { get; set; }        
+        public decimal PorcentajeImpuesto { get; set; }        
     }
 }

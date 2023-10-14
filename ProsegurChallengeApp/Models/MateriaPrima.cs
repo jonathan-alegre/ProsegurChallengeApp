@@ -5,7 +5,7 @@ namespace ProsegurChallengeApp.Models
     public class MateriaPrima
     {
         [Key]
-        public Guid Id { get; set; }        
+        public int Id { get; set; }        
 
         [Required]
         public string Descripcion { get; set; }
@@ -14,6 +14,6 @@ namespace ProsegurChallengeApp.Models
         public decimal Precio { get; set; }
 
         [Required]
-        public int Cantidad { get; set; }
+        public decimal Cantidad { get; set; }     
     }
 }

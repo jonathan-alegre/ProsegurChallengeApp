@@ -5,7 +5,7 @@ namespace ProsegurChallengeApp.Models
     public class Item
     {
         [Key]
-        public Guid Id { get; set; }        
+        public int Id { get; set; }        
 
         [Required]
         public string Descripcion { get; set; }

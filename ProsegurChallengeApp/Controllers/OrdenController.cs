@@ -20,7 +20,7 @@ namespace ProsegurChallengeApp.Controllers
             _dbContext = dbContext;
         }
 
-        private IEnumerable<SelectListItem> GetProvincias()
+        private IEnumerable<SelectListItem> GetListItemProvincias()
         {            
             var provincias = _dbContext
                         .Provincias.ToList()
@@ -35,6 +35,7 @@ namespace ProsegurChallengeApp.Controllers
         }
 
         [ApiExplorerSettings( IgnoreApi = true )]
+        [HttpGet]
         [Route( "Index" )]
         public IActionResult Index()
         {           
@@ -49,7 +50,26 @@ namespace ProsegurChallengeApp.Controllers
             orden.Items = _dbContext.Items.ToList();
 
             return View( orden );
-        }        
+        }
+
+        [HttpPost]
+        [Route( "CrearOrden" )]
+        public async Task<IActionResult> CrearOrden( [FromForm] Orden orden )
+        {
+            if ( ModelState.IsValid )
+            {
+                Orden nuevaOrden = new Orden();
+                nuevaOrden.Id = Guid.NewGuid();
+                nuevaOrden.Descripcion = orden.Descripcion;                
+
+                _dbContext.Ordenes.Add( nuevaOrden );
+                await _dbContext.SaveChangesAsync();
+
+                return RedirectToAction( "Index", "Home" );
+            }
+
+            return View();
+        }
 
 
 

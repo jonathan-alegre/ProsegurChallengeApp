@@ -28,12 +28,11 @@
                 <span asp-validation-for="IdItem" class="text-danger"></span>                
             </div>
             <div class="form-group">
-                <label asp-for="ImporteTotal" class="control-label"></label>
-                <input asp-for="ImporteTotal" class="form-control" />
+                <label asp-for="ImporteTotal" class="control-label"></label>                
                 <span asp-validation-for="ImporteTotal" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Crar Orden" class="btn btn-primary" />
+                <input type="submit" value="Crar Orden" class="btn btn-primary" asp-action="CrearOrden" asp-controller="Orden"/>
             </div>
         </form>
     </div>
