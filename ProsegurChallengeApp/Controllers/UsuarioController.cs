@@ -55,7 +55,7 @@ namespace ProsegurChallengeApp.Controllers
                 nuevoUsuario.Id = Guid.NewGuid();
                 nuevoUsuario.Nombre = usuario.Nombre;
                 nuevoUsuario.Password = usuario.Password;
-                nuevoUsuario.Rol = "Usuario";
+                //nuevoUsuario.Rol = "Usuario";
 
                 //var managerUsuario = WebApplication.CreateBuilder().Build().Services.CreateScope().ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
@@ -82,6 +82,6 @@ namespace ProsegurChallengeApp.Controllers
         public Usuario? ValidarUsuario( string nombre, string password )
         {
             return _dbContext.Usuarios.FirstOrDefault( u => u.Nombre == nombre && u.Password == password );            
-        }
+        }       
     }
 }

@@ -75,10 +75,10 @@ app.MapControllerRoute(
 //}
 
 
-//using ( var scope = app.Services.CreateScope() )
-//{
-//    var context = scope.ServiceProvider.GetService<CafeteriaDbContext>();
-//    DataSeeder.SeedUsuarios( context );
-//}
+using ( var scope = app.Services.CreateScope() )
+{
+    var context = scope.ServiceProvider.GetService<CafeteriaDbContext>();
+    DataSeeder.SeedData( context );
+}
 
 app.Run();

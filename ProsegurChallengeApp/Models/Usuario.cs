@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProsegurChallengeApp.Models
 {
-    public class Usuario: IdentityUser
+    public class Usuario
     {
         [Key]
         public Guid Id { get; set; }
@@ -19,10 +19,7 @@ namespace ProsegurChallengeApp.Models
         [Required( ErrorMessage = "La Contraseña es obligatoria." )]
         [MaxLength( 30 )]
         [StringLength( 30, ErrorMessage = "La contraseña no puede contener más de 30 caracteres" )]
-        public string Password { get; set; }
-        
-        [MaxLength( 20 )]        
-        public string Rol { get; set; }
+        public string Password { get; set; }       
 
         [NotMapped]
         public bool MantenerActivo { get; set; }        
