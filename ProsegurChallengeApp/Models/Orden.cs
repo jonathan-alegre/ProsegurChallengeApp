@@ -23,21 +23,20 @@ namespace ProsegurChallengeApp.Models
 
         [Display( Name = "Provincia" )]
         [Required( ErrorMessage = "Debe seleccionar una Provincia." )]        
-        public Guid IdProvincia { get; set; }
+        public int IdProvincia { get; set; }
         
-        [ForeignKey( "IdProvincia" )]
-        [Required]
+        [ForeignKey( "IdProvincia" )]        
         public virtual List<Provincia> Provincias { get; set; }
 
+        //[Display( Name = "Items" )]
+        //[Required( ErrorMessage = "Debe seleccionar algún Item." )]
+        //public int IdItem { get; set; }
+
         [Display( Name = "Items" )]
-        [Required( ErrorMessage = "Debe seleccionar algún Item." )]
-        public Guid IdItem { get; set; }
-
         [ForeignKey( "IdItem" )]
-        [Required]
-        public virtual List<Item> Items { get; set; }
-
-        [Required( ErrorMessage = "Debe ingresar un Importe Total." )]        
+        [Required( ErrorMessage = "Debe seleccionar algún Item." )]
+        public virtual IEnumerable<Item> Items { get; set; }
+        
         [RegularExpression( @"^\d+(\.\d{1,2})?$", ErrorMessage = "Debe ingresar un valor decimal (de hasta 2 decimales)." )]
         public decimal ImporteTotal { get; set; }
     }

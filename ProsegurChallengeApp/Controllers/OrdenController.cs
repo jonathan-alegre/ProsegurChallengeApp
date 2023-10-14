@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -54,13 +55,18 @@ namespace ProsegurChallengeApp.Controllers
 
         [HttpPost]
         [Route( "CrearOrden" )]
-        public async Task<IActionResult> CrearOrden( [FromForm] Orden orden )
+        public async Task<IActionResult> CrearOrden( [FromForm] Orden orden, [FromForm] IFormCollection fc )
         {
             if ( ModelState.IsValid )
-            {
+            {                
                 Orden nuevaOrden = new Orden();
                 nuevaOrden.Id = Guid.NewGuid();
-                nuevaOrden.Descripcion = orden.Descripcion;                
+                nuevaOrden.Descripcion = orden.Descripcion;
+                
+                var items = fc["items"];                
+                List<Item> itemsSeleccionados = _dbContext.Items.Where( i => items.ToList().Contains( i.Id.ToString() ) ).ToList<Item>();
+                
+                nuevaOrden.Items = itemsSeleccionados;  
 
                 _dbContext.Ordenes.Add( nuevaOrden );
                 await _dbContext.SaveChangesAsync();
