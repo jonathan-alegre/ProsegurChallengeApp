@@ -95,7 +95,7 @@ namespace ProsegurChallengeApp.Controllers
             return View();
         }
       
-        [HttpGet]
+        [HttpPost]
         [Route( "GetOrdenes" )]
         public async Task<IActionResult> GetOrdenes()
         {

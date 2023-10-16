@@ -7,6 +7,7 @@
 <div class="text-end">
     <button onclick="location.href='@Url.Action("Index", "Orden" )'" class="btn btn-primary">Crear Orden</button>
 </div>
+<br />
 <table class="table table-bordered table-striped" id='tblOrdenes'>
     <thead class="bg-dark text-white">
         <tr>
@@ -48,9 +49,9 @@
 
 </table>
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+<script src="~/lib/jQuery-1.12.4/jquery-1.12.4.js"></script>
+<link rel="stylesheet" href="~/lib/dataTables/css/jquery.dataTables.css" />
+<script src="~/lib/dataTables/js/jquery.dataTables.js"></script>
 
 <style type="text/css">
     #tbllist_filter {
@@ -64,40 +65,68 @@
     });    
 
     function CargarOrdenes() {
-        // var empdata = [];
-        // $.ajax({
-        //     type: "GET",
-        //     url: "/Orden/GetOrdenes",
-        //     async: false,
-        //     success: function(data) {                                
-        //         empdata.push([value.Descripcion, value.Provincia, value.Importe, value.TiempoRealizacion, value.Usuario, value.Fecha])
-        //     })
-        //     },
-        //     failure: function(err) {
-        //         console.log(err);
-        //     }
-        // });
-        // $('#tblOrdenes').DataTable({
-        //     data: empdata
-        // });
-
-
-        $('#tblOrdenes').DataTable( {
-            ajax: {
-               url: '/Orden/GetOrdenes',
-               method: "GET",           
+        var columns = [];
+        $.ajax({
+            type: "POST",
+            url: "/Orden/GetOrdenes",            
+            success: function(data) {               
+                console.log(data);
+                // $.each(data, function(key, value) {                    
+                //     columns.push([value.descripcion, value.idProvincia, value.importe, value.tiempoRealizacion, value.idUsuario, value.fecha])
+                // })
+                // console.log(columns);                
+                
+                $('#tblOrdenes').DataTable({                        
+                    data: data,
+                    columns: [
+                            { "data": "descripcion" },
+                            { "data": "idProvincia" },
+                            { "data": "importe" },
+                            { "data": "tiempoRealizacion" },
+                            { "data": "idUsuario" },
+                            { "data": "fecha" }
+                    ]
+                });
             },
-            columns: [
-                { data: "Descripcion" },
-                { data: "IdProvincia" },
-                { data: "Importe" },
-                { data: "TiempoRealizacion" },
-                { data: "IdUsuario" },
-                { data: "Fecha" }                
-            ]
-        } );
+            failure: function(err) {
+                console.log(err);
+            }
+        });
+
+        // $('#tblOrdenes').DataTable({
+        //     "data": columns
+        // });
+
+        // $('#tblOrdenes').DataTable({
+        //      columns: [ { empdata: "descripcion" },
+        //                 { empdata: "idProvincia" },
+        //                 { empdata: "importe" },
+        //                 { empdata: "tiempoRealizacion" },
+        //                 { empdata: "idUsuario" },
+        //                 { empdata: "fecha" }
+        //               ]
+        // });
 
 
+        // $('#tblOrdenes').DataTable( {
+        //     ajax: {
+        //        url: '/Orden/GetOrdenes',
+        //        type: "GET",
+        //        async: false,
+        //        datatype: "json",
+        //        failure: function(err) {
+        //          console.log(err);
+        //       }
+        //     },
+        //     columns: [
+        //                 { data: "descripcion" },
+        //                 { data: "idProvincia" },
+        //                 { data: "importe" },
+        //                 { data: "tiempoRealizacion" },
+        //                 { data: "idUsuario" },
+        //                 { data: "fecha" }
+        //     ]
+        // } );
     }
 
 </script>
