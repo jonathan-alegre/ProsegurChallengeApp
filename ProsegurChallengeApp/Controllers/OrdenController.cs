@@ -99,14 +99,30 @@ namespace ProsegurChallengeApp.Controllers
         [Route( "GetOrdenes" )]
         public async Task<IActionResult> GetOrdenes()
         {
-            var response = await _dbContext.Ordenes.ToListAsync();
+            List<OrdenView> ordenesView = new List<OrdenView>();
+
+            foreach ( var orden in _dbContext.Ordenes )
+            {
+                OrdenView ordenView = new OrdenView();
+                ordenView.Id = orden.Id;
+                ordenView.Descripcion = orden.Descripcion;
+                ordenView.Provincia = _dbContext.Provincias.First( p => p.Id == orden.IdProvincia ).Nombre;
+                ordenView.Importe  = orden.Importe;
+                ordenView.TiempoRealizacion = orden.TiempoRealizacion;
+                ordenView.Usuario = _dbContext.Usuarios.First( u => u.Id == orden.IdUsuario ).Nombre;
+                ordenView.Fecha = orden.Fecha;
+
+                ordenesView.Add( ordenView );
+            }            
+
+            var response = await Task.Run( () => ordenesView );
             return Json( response );
         }
 
         [HttpGet]
         [Route( "GetOrdenesItems" )]
         public async Task<IActionResult> GetOrdenesItems()
-        {
+        {            
             var response = await _dbContext.OrdenesItems.ToListAsync();
             return Json( response );
         }

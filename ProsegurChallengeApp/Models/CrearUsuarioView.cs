@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProsegurChallengeApp.Models
 {
-    public class ViewCrearUsuario
+    public class CrearUsuarioView
     {
         [Key]
         public int Id { get; set; }

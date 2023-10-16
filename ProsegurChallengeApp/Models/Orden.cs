@@ -37,8 +37,6 @@ namespace ProsegurChallengeApp.Models
         [Display( Name = "Items" )]
         [ForeignKey( "IdItem" )]
         [Required( ErrorMessage = "Debe seleccionar algún Item." )]
-        public IEnumerable<Item> Items { get; set; }
-        
-        
+        public IEnumerable<Item> Items { get; set; }                
     }
 }

@@ -13,120 +13,79 @@
         <tr>
             <td>Descripción</td>
             <td>Provincia</td>
-            <td>Importe Total</td>
-            <td>Tiempo Realización</td>
+            <td>Importe Total ($)</td>
+            <td>Tiempo Realización (minutos)</td>
             <td>Usuario</td>
             <td>Fecha</td>
         </tr>
     </thead>
     <tbody>
-        @*@foreach(Global.Entity.Employee item in Model)
-        {
-        <tr>
-        <td>
-        @Html.DisplayFor(itemdisplay=>item.Code)
-        @Html.HiddenFor(itemdisplay=>item.Code)
-        </td>
-        <td>
-        @Html.DisplayFor(itemdisplay=>item.Name)
-        </td>
-        <td>
-        @Html.DisplayFor(itemdisplay=>item.Email)
-        </td>
-        <td>
-        @Html.DisplayFor(itemdisplay=>item.Phone)
-        </td>
-        <td>
-        @Html.DisplayFor(itemdisplay=>item.Designation)
-        </td>
-        <td>
-        <a onclick="FunEdit(this)" class="btn btn-primary">Edit</a> |
-        <a onclick="FunRemove(this)" class="btn btn-danger">Remove</a>
-        </td>
-        </tr>
-        }*@
     </tbody>
-
 </table>
 
-<script src="~/lib/jQuery-1.12.4/jquery-1.12.4.js"></script>
 <link rel="stylesheet" href="~/lib/dataTables/css/jquery.dataTables.css" />
-<script src="~/lib/dataTables/js/jquery.dataTables.js"></script>
 
-<style type="text/css">
-    #tbllist_filter {
-        margin-bottom: 1%;
-    }
-</style>
+@section Scripts {
 
-<script type="text/javascript">       
-    $(document).ready(function() {
-        CargarOrdenes();
-    });    
+    <script src="~/lib/jQuery-1.12.4/jquery-1.12.4.js"></script>    
+    <script src="~/lib/dataTables/js/jquery.dataTables.js"></script>
+    <script src="~/lib/moment/moment-with-locales.min.js"></script>
 
-    function CargarOrdenes() {
-        var columns = [];
-        $.ajax({
-            type: "POST",
-            url: "/Orden/GetOrdenes",            
-            success: function(data) {               
-                console.log(data);
-                // $.each(data, function(key, value) {                    
-                //     columns.push([value.descripcion, value.idProvincia, value.importe, value.tiempoRealizacion, value.idUsuario, value.fecha])
-                // })
-                // console.log(columns);                
-                
-                $('#tblOrdenes').DataTable({                        
-                    data: data,
-                    columns: [
-                            { "data": "descripcion" },
-                            { "data": "idProvincia" },
-                            { "data": "importe" },
-                            { "data": "tiempoRealizacion" },
-                            { "data": "idUsuario" },
-                            { "data": "fecha" }
-                    ]
-                });
-            },
-            failure: function(err) {
-                console.log(err);
-            }
+
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+            CargarOrdenes();
         });
 
-        // $('#tblOrdenes').DataTable({
-        //     "data": columns
-        // });
+        function CargarOrdenes() {
+            var columns = [];
+            $.ajax({
+                type: "POST",
+                url: "/Orden/GetOrdenes",
+                success: function(data) {
+                    console.log(data);
+                    // $.each(data, function(key, value) {
+                    //     columns.push([value.descripcion, value.idProvincia, value.importe, value.tiempoRealizacion, value.idUsuario, value.fecha])
+                    // })
+                    // console.log(columns);
 
-        // $('#tblOrdenes').DataTable({
-        //      columns: [ { empdata: "descripcion" },
-        //                 { empdata: "idProvincia" },
-        //                 { empdata: "importe" },
-        //                 { empdata: "tiempoRealizacion" },
-        //                 { empdata: "idUsuario" },
-        //                 { empdata: "fecha" }
-        //               ]
-        // });
+                    $('#tblOrdenes').DataTable({
+                        data: data,
+                        columns: [
+                                { "data": "descripcion" },
+                                { "data": "provincia" },
+                                { "data": "importe" },
+                                { "data": "tiempoRealizacion" },
+                                { "data": "usuario" },
+                                { "data": "fecha" }
+                        ],
+                        language: {
+                          "emptyTable": "No hay órdenes cargadas",
+                          "search": "Buscar: ",
+                          "lengthMenu": "Mostrar _MENU_ registros por página",
+                          "paginate": {
+                              "previous": "Anterior",
+                              "next": "Siguiente"
+                          },
+                          "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                          "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                          "sZeroRecords": "No se encontraron resultados",
+                        },
+                        columnDefs: [
+                                    {
+                                        "targets": 5,
+                                        "render": DataTable.render.datetime('DD/MM/YYYY, HH:mm:ss')
+                                    }
+                        ]
+                    });
+                },
+                failure: function(err) {
+                    console.log(err);
+                }
+            });
+        }
 
+    </script>
 
-        // $('#tblOrdenes').DataTable( {
-        //     ajax: {
-        //        url: '/Orden/GetOrdenes',
-        //        type: "GET",
-        //        async: false,
-        //        datatype: "json",
-        //        failure: function(err) {
-        //          console.log(err);
-        //       }
-        //     },
-        //     columns: [
-        //                 { data: "descripcion" },
-        //                 { data: "idProvincia" },
-        //                 { data: "importe" },
-        //                 { data: "tiempoRealizacion" },
-        //                 { data: "idUsuario" },
-        //                 { data: "fecha" }
-        //     ]
-        // } );
-    }
-
-</script>
+                          }

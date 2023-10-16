@@ -17,28 +17,7 @@ namespace ProsegurChallengeApp.Controllers
         public UsuarioController( CafeteriaDbContext dbContext )
         {
             _dbContext = dbContext;
-        }
-
-        //[HttpPost]
-        //[Route( "CreateUsuarios" )]
-        //public async Task<IActionResult> CreateUsuarios()
-        //{
-        //    Usuario usuario = new Usuario();
-        //    usuario.Id = Guid.NewGuid();
-        //    usuario.Nombre = "Jonathan Alegre";
-
-        //    _dbContext.Usuarios.Add( usuario );
-
-        //    usuario = new Usuario();
-        //    usuario.Id = Guid.NewGuid();
-        //    usuario.Nombre = "Maximiliano Barrera";
-
-        //    _dbContext.Usuarios.Add( usuario );
-
-        //    _dbContext.SaveChanges();
-
-        //    return Content( "Usuarios Creados" );
-        //}
+        }        
 
         [ApiExplorerSettings( IgnoreApi = true )]
         [Route( "Index" )]
@@ -55,7 +34,7 @@ namespace ProsegurChallengeApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CrearUsuario( [FromForm] ViewCrearUsuario usuario )
+        public async Task<IActionResult> CrearUsuario( [FromForm] CrearUsuarioView usuario )
         {
             if ( ModelState.IsValid )
             {
