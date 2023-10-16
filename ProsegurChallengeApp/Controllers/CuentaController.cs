@@ -47,7 +47,9 @@ namespace ProsegurChallengeApp.Controllers
                 {
                     List<Claim> c = new List<Claim>()
                                 {
-                                    new Claim(ClaimTypes.NameIdentifier, usuario.Nombre)
+                                    new Claim(ClaimTypes.NameIdentifier, validaUsuario.Id.ToString()),
+                                    new Claim(ClaimTypes.Name, validaUsuario.Nombre),
+                                    new Claim(ClaimTypes.StateOrProvince, validaUsuario.IdProvincia.ToString())
                                 };
                     ClaimsIdentity ci = new( c, CookieAuthenticationDefaults.AuthenticationScheme );
                     AuthenticationProperties p = new();

@@ -12,7 +12,7 @@ namespace ProsegurChallengeApp.Models
         public int IdMateriaPrima { get; set; }
 
         [ForeignKey( "IdMateriaPrima" )]        
-        public virtual MateriaPrima MateriaPrima { get; set; }
+        public MateriaPrima MateriaPrima { get; set; }
 
         public decimal CantidadMateriaPrima { get; set; }        
     }

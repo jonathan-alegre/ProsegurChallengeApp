@@ -6,9 +6,9 @@ namespace ProsegurChallengeApp.Models
     public class UsuarioRol
     {
         [Key]
-        public Guid IdUsuario { get; set; }
+        public int IdUsuario { get; set; }
         
         [Key]
-        public Guid IdRol { get; set; }
+        public int IdRol { get; set; }
     }
 }

@@ -5,7 +5,7 @@ namespace ProsegurChallengeApp.Models
     public class Rol
     {
         [Key]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         
         [MaxLength( 20 )]        
         public string Descripcion { get; set; }                

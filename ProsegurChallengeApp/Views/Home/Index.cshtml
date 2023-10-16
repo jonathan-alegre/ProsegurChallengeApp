@@ -1,7 +1,103 @@
 ﻿@{
     ViewData["Title"] = "Home page";
 }
-
-<div class="text-center">    
+<h1>Órdenes</h1>
+<h4>Listado</h4>
+<hr />
+<div class="text-end">
     <button onclick="location.href='@Url.Action("Index", "Orden" )'" class="btn btn-primary">Crear Orden</button>
 </div>
+<table class="table table-bordered table-striped" id='tblOrdenes'>
+    <thead class="bg-dark text-white">
+        <tr>
+            <td>Descripción</td>
+            <td>Provincia</td>
+            <td>Importe Total</td>
+            <td>Tiempo Realización</td>
+            <td>Usuario</td>
+            <td>Fecha</td>
+        </tr>
+    </thead>
+    <tbody>
+        @*@foreach(Global.Entity.Employee item in Model)
+        {
+        <tr>
+        <td>
+        @Html.DisplayFor(itemdisplay=>item.Code)
+        @Html.HiddenFor(itemdisplay=>item.Code)
+        </td>
+        <td>
+        @Html.DisplayFor(itemdisplay=>item.Name)
+        </td>
+        <td>
+        @Html.DisplayFor(itemdisplay=>item.Email)
+        </td>
+        <td>
+        @Html.DisplayFor(itemdisplay=>item.Phone)
+        </td>
+        <td>
+        @Html.DisplayFor(itemdisplay=>item.Designation)
+        </td>
+        <td>
+        <a onclick="FunEdit(this)" class="btn btn-primary">Edit</a> |
+        <a onclick="FunRemove(this)" class="btn btn-danger">Remove</a>
+        </td>
+        </tr>
+        }*@
+    </tbody>
+
+</table>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+
+<style type="text/css">
+    #tbllist_filter {
+        margin-bottom: 1%;
+    }
+</style>
+
+<script type="text/javascript">       
+    $(document).ready(function() {
+        CargarOrdenes();
+    });    
+
+    function CargarOrdenes() {
+        // var empdata = [];
+        // $.ajax({
+        //     type: "GET",
+        //     url: "/Orden/GetOrdenes",
+        //     async: false,
+        //     success: function(data) {                                
+        //         empdata.push([value.Descripcion, value.Provincia, value.Importe, value.TiempoRealizacion, value.Usuario, value.Fecha])
+        //     })
+        //     },
+        //     failure: function(err) {
+        //         console.log(err);
+        //     }
+        // });
+        // $('#tblOrdenes').DataTable({
+        //     data: empdata
+        // });
+
+
+        $('#tblOrdenes').DataTable( {
+            ajax: {
+               url: '/Orden/GetOrdenes',
+               method: "GET",           
+            },
+            columns: [
+                { data: "Descripcion" },
+                { data: "IdProvincia" },
+                { data: "Importe" },
+                { data: "TiempoRealizacion" },
+                { data: "IdUsuario" },
+                { data: "Fecha" }                
+            ]
+        } );
+
+
+    }
+
+</script>

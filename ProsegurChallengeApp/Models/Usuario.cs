@@ -9,7 +9,7 @@ namespace ProsegurChallengeApp.Models
     public class Usuario
     {
         [Key]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         [Required( ErrorMessage = "El Nombre es obligatorio." )]
         [MaxLength( 20 )]
@@ -19,7 +19,15 @@ namespace ProsegurChallengeApp.Models
         [Required( ErrorMessage = "La Contraseña es obligatoria." )]
         [MaxLength( 30 )]
         [StringLength( 30, ErrorMessage = "La contraseña no puede contener más de 30 caracteres" )]
-        public string Password { get; set; }       
+        public string Password { get; set; }
+
+        [Required]
+        public int IdProvincia { get; set; }
+
+        [ForeignKey("IdProvincia")]
+        public Provincia Provincia { get; set; }
+        
+        public string Rol { get; set; }        
 
         [NotMapped]
         public bool MantenerActivo { get; set; }        

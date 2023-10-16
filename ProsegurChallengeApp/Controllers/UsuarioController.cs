@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProsegurChallengeApp.Context;
 using ProsegurChallengeApp.Models;
@@ -40,22 +41,30 @@ namespace ProsegurChallengeApp.Controllers
         //}
 
         [ApiExplorerSettings( IgnoreApi = true )]
-        [Route("Index")]
+        [Route( "Index" )]
         public IActionResult Index()
         {
+            var provincias = _dbContext.Provincias.Select
+            ( x => new SelectListItem { Value = x.Id.ToString(), Text = x.Nombre } ).ToList();
+
+            provincias.Insert( 0, new SelectListItem { Value = null, Text = string.Empty } );
+
+            ViewBag.Provincias = provincias;
+
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> CrearUsuario( [FromForm] UsuarioCrear usuario )
+        public async Task<IActionResult> CrearUsuario( [FromForm] ViewCrearUsuario usuario )
         {
             if ( ModelState.IsValid )
             {
                 Usuario nuevoUsuario = new Usuario();
-                nuevoUsuario.Id = Guid.NewGuid();
+                nuevoUsuario.Id = ( !_dbContext.Usuarios.Any() ? 0 : _dbContext.Usuarios.Max( u => u.Id ) ) + 1;
                 nuevoUsuario.Nombre = usuario.Nombre;
                 nuevoUsuario.Password = usuario.Password;
-                //nuevoUsuario.Rol = "Usuario";
+                nuevoUsuario.IdProvincia = usuario.IdProvincia;
+                nuevoUsuario.Rol = "Usuario";
 
                 //var managerUsuario = WebApplication.CreateBuilder().Build().Services.CreateScope().ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
@@ -81,7 +90,7 @@ namespace ProsegurChallengeApp.Controllers
         [Route( "ValidarUsuario" )]
         public Usuario? ValidarUsuario( string nombre, string password )
         {
-            return _dbContext.Usuarios.FirstOrDefault( u => u.Nombre == nombre && u.Password == password );            
-        }       
+            return _dbContext.Usuarios.FirstOrDefault( u => u.Nombre == nombre && u.Password == password );
+        }
     }
 }

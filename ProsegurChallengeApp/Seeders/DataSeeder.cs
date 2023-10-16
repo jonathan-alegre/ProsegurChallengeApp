@@ -7,24 +7,12 @@ namespace ProsegurChallengeApp.Seeders
     {
         public static async Task SeedData( CafeteriaDbContext context )
         {
-            await SeedUsuarios( context );
             await SeedProvincias( context );
+            await SeedUsuarios( context );
             await SeedItems( context );
             await SeedMateriasPrimas( context );
             await SeedItemsMateriasPrimas( context );
             await SeedProvinciasImpuestos( context );
-        }
-
-        public static async Task SeedUsuarios( CafeteriaDbContext context )
-        {
-            var usuarios = new List<Usuario>
-            {
-                new Usuario { Id=Guid.NewGuid(), Nombre = "jonathanalegre", Password="1234"  },
-                new Usuario { Id=Guid.NewGuid(), Nombre = "admin", Password="admin" }
-            };
-
-            context.Usuarios.AddRange( usuarios );
-            await context.SaveChangesAsync();
         }
 
         public static async Task SeedProvincias( CafeteriaDbContext context )
@@ -41,6 +29,18 @@ namespace ProsegurChallengeApp.Seeders
             };
 
             context.Provincias.AddRange( provincias );
+            await context.SaveChangesAsync();
+        }
+
+        public static async Task SeedUsuarios( CafeteriaDbContext context )
+        {
+            var usuarios = new List<Usuario>
+            {
+                new Usuario { Id=1, Nombre = "admin", Password="1234", IdProvincia=1, Rol="Administrador" },
+                new Usuario { Id=2, Nombre = "jonialegre", Password="1234", IdProvincia=2, Rol="Usuario" },                
+            };
+
+            context.Usuarios.AddRange( usuarios );
             await context.SaveChangesAsync();
         }
 
@@ -107,7 +107,7 @@ namespace ProsegurChallengeApp.Seeders
                 new ItemMateriaPrima{ IdItem=1, IdMateriaPrima=4, CantidadMateriaPrima=0.01m },
                 new ItemMateriaPrima{ IdItem=1, IdMateriaPrima=5, CantidadMateriaPrima=0.01m },
                 //Café Americano
-                new ItemMateriaPrima{ IdItem=2, IdMateriaPrima=1, CantidadMateriaPrima=0.120m },                                
+                new ItemMateriaPrima{ IdItem=2, IdMateriaPrima=1, CantidadMateriaPrima=0.120m },
                 new ItemMateriaPrima{ IdItem=2, IdMateriaPrima=5, CantidadMateriaPrima=0.01m },
                 //Macchiato
                 new ItemMateriaPrima{ IdItem=3, IdMateriaPrima=2, CantidadMateriaPrima=0.120m },

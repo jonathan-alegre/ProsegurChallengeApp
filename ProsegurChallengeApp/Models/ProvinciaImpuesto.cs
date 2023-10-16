@@ -10,7 +10,7 @@ namespace ProsegurChallengeApp.Models
         public int IdProvincia { get; set; }
 
         [ForeignKey("IdProvincia")]
-        public virtual Provincia Provincia { get; set; }
+        public  Provincia Provincia { get; set; }
 
         [Required]
         public decimal PorcentajeImpuesto { get; set; }        

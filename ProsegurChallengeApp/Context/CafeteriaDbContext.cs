@@ -14,6 +14,7 @@ namespace ProsegurChallengeApp.Context
         public DbSet<ItemMateriaPrima> ItemsMateriasPrimas { get; set; }
         public DbSet<ProvinciaImpuesto> ProvinciasImpuestos { get; set; }
         public DbSet<Orden> Ordenes { get; set; }
+        public DbSet<OrdenItem> OrdenesItems { get; set; }
 
         protected override void OnConfiguring( DbContextOptionsBuilder optionsBuilder )
         {
