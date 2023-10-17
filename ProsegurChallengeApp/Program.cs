@@ -1,13 +1,18 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
-using ProsegurChallengeApp.Context;
 using Microsoft.EntityFrameworkCore;
 using ProsegurChallengeApp.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ProsegurChallengeApp.Seeders;
 using System.Drawing.Text;
 using System.Security.Cryptography;
+using ProsegurChallengeApp_DAL.Data;
+using ProsegurChallengeApp_BAL.Interfaces;
+using ProsegurChallengeApp_BAL.OrdenBAL;
+using ProsegurChallengeApp_DAL.Interfaces;
+using ProsegurChallengeApp_DAL.OrdenDAL;
+using ProsegurChallengeApp_DAL.DALClasses;
+using ProsegurChallengeApp_BAL.BALClasses;
 
 var builder = WebApplication.CreateBuilder( args );
 
@@ -20,6 +25,27 @@ builder.Services.AddControllers(
     options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true );
 
 builder.Services.AddDbContext<CafeteriaDbContext>();
+
+builder.Services.AddScoped<IItemDA, ItemDA>();
+builder.Services.AddScoped<IItemBC, ItemBC>();
+
+builder.Services.AddScoped<IItemMateriaPrimaDA, ItemMateriaPrimaDA>();
+builder.Services.AddScoped<IItemMateriaPrimaBC, ItemMateriaPrimaBC>();
+
+builder.Services.AddScoped<IMateriaPrimaDA, MateriaPrimaDA>();
+builder.Services.AddScoped<IMateriaPrimaBC, MateriaPrimaBC>();
+
+builder.Services.AddScoped<IOrdenDA, OrdenDA>();
+builder.Services.AddScoped<IOrdenBC, OrdenBC>();
+
+builder.Services.AddScoped<IProvinciaDA, ProvinciaDA>();
+builder.Services.AddScoped<IProvinciaBC, ProvinciaBC>();
+
+builder.Services.AddScoped<IProvinciaImpuestoDA, ProvinciaImpuestoDA>();
+builder.Services.AddScoped<IProvinciaImpuestoBC, ProvinciaImpuestoBC>();
+
+builder.Services.AddScoped<IUsuarioDA, UsuarioDA>();
+builder.Services.AddScoped<IUsuarioBC, UsuarioBC>();
 
 //builder.Services.AddIdentity<IdentityUser, IdentityRole>( options => options.SignIn.RequireConfirmedAccount = true ).AddUserStore<DbContext>();
 

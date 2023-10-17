@@ -4,9 +4,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Protocol.Core.Types;
-using ProsegurChallengeApp.Context;
 using ProsegurChallengeApp.Models;
+using ProsegurChallengeApp_BAL.Interfaces;
+using ProsegurChallengeApp_BAL.OrdenBAL;
+using ProsegurChallengeApp_DAL.Data;
+using ProsegurChallengeApp_DAL.Interfaces;
+using ProsegurChallengeApp_DAL.Models;
+using ProsegurChallengeApp_DAL.OrdenDAL;
 using System.Security.Claims;
 
 namespace ProsegurChallengeApp.Controllers
@@ -16,25 +20,15 @@ namespace ProsegurChallengeApp.Controllers
     public class OrdenController : Controller
     {
         private readonly CafeteriaDbContext _dbContext;
+        private readonly IOrdenBC _ordenBC;
+        private readonly IProvinciaBC _provinciaBC;
 
-        public OrdenController( CafeteriaDbContext dbContext )
+        public OrdenController( CafeteriaDbContext dbContext, IOrdenBC ordenBC, IProvinciaBC provinciaBC )
         {
             _dbContext = dbContext;
-        }
-
-        private IEnumerable<SelectListItem> GetListItemProvincias()
-        {            
-            var provincias = _dbContext
-                        .Provincias.ToList()
-                        .Select( x =>
-                                new SelectListItem
-                                {
-                                    Value = x.Id.ToString(),
-                                    Text = x.Nombre
-                                } );
-
-            return new SelectList( provincias, "Value", "Text" );
-        }
+            _ordenBC = ordenBC;
+            _provinciaBC = provinciaBC;
+         } 
 
         [ApiExplorerSettings( IgnoreApi = true )]
         [HttpGet]
@@ -42,9 +36,8 @@ namespace ProsegurChallengeApp.Controllers
         public IActionResult Index()
         {
             var idProvinciaUsuario = HttpContext.User.Claims.First( x => x.Type == ClaimTypes.StateOrProvince ).Value.ToString();
-            
-            var provincias = _dbContext.Provincias.Select
-                            ( x => new SelectListItem { Value = x.Id.ToString(), Text = x.Nombre } ).ToList();
+
+            var provincias = _provinciaBC.GetListItemProvincias();
 
             ViewBag.Provincias = provincias;
 
@@ -59,84 +52,16 @@ namespace ProsegurChallengeApp.Controllers
         [Route( "CrearOrden" )]
         public async Task<IActionResult> CrearOrden( OrdenABM orden )
         {
-            int idOrden = ( !_dbContext.Ordenes.Any() ? 0 : _dbContext.Ordenes.Max( o => o.Id ) ) + 1;
-
-            Orden nuevaOrden = new Orden();
-            nuevaOrden.Id = idOrden;
-            nuevaOrden.Descripcion = orden.Descripcion;            
-
-            foreach ( var idItem in orden.IdsItem )
-            {
-                OrdenItem ordenItem = new OrdenItem() { IdOrden = idOrden, IdItem = idItem };
-                _dbContext.OrdenesItems.Add( ordenItem );
-                
-                foreach ( var materiaPrimaItem in _dbContext.ItemsMateriasPrimas.Where( m => m.IdItem == idItem ).ToList() )
-                {
-                    var materiaPrima = _dbContext.MateriasPrimas.First(m=> m.Id ==  materiaPrimaItem.IdMateriaPrima);
-                    if ( materiaPrima.Cantidad - materiaPrimaItem.CantidadMateriaPrima >= 0 )
-                        materiaPrima.Cantidad -= materiaPrimaItem.CantidadMateriaPrima;
-                    else
-                        return Json( new { success = false, responseText = "Hay Materias Primas insuficientes para crear la Orden." } );
-                }
-            }
-            
-            var porcentajeImpuestoProvincia = _dbContext.ProvinciasImpuestos.First( p => p.IdProvincia == orden.IdProvincia ).PorcentajeImpuesto;
-
-            nuevaOrden.Importe = _dbContext.Items.Where( i => orden.IdsItem.ToList().Contains( i.Id ) ).Sum( i => i.Precio ) * ( 1 + decimal.Parse( porcentajeImpuestoProvincia.ToString() ) / 100 );
-            nuevaOrden.TiempoRealizacion = _dbContext.Items.Where( i => orden.IdsItem.ToList().Contains( i.Id ) ).Sum( i => i.TiempoRealizacion );
-            nuevaOrden.IdProvincia = orden.IdProvincia;
-            nuevaOrden.IdUsuario = int.Parse( HttpContext.User.Claims.First( x => x.Type == ClaimTypes.NameIdentifier ).Value.ToString() );
-            nuevaOrden.Fecha = DateTime.Now;
-
-            _dbContext.Ordenes.Add( nuevaOrden );
-            await _dbContext.SaveChangesAsync();
-            return Json( new { success = true, responseText = "Orden creada. Id: " + idOrden.ToString() } );
+            orden.IdUsuario = int.Parse( HttpContext.User.Claims.First( x => x.Type == ClaimTypes.NameIdentifier ).Value.ToString() );
+            return await _ordenBC.CrearOrden(orden);            
         }
 
         [HttpPost]
         [Route( "GetOrdenes" )]
         public async Task<IActionResult> GetOrdenes( OrdenFiltro ordenFiltro )
-        {
-            List<OrdenFiltro> ordenesView = new List<OrdenFiltro>();            
-
-            List<Orden> ordenesFiltradas = _dbContext.Ordenes.Where(
-                                                o => ( string.IsNullOrEmpty( ordenFiltro.Descripcion ) || o.Descripcion.ToUpper().Contains( ordenFiltro.Descripcion.ToUpper() ) ) &&
-                                                     ( ordenFiltro.IdProvincia == null || o.IdProvincia == ordenFiltro.IdProvincia ) &&
-                                                     ( string.IsNullOrEmpty( ordenFiltro.Usuario ) || _dbContext.Usuarios.Where( u => u.Nombre.ToUpper().Contains( ordenFiltro.Usuario.ToUpper() ) ).Select( u => u.Id ).Contains( o.Id ) )
-                                           ).ToList();
-
-            foreach ( var orden in ordenesFiltradas )
-            {
-                OrdenFiltro ordenView = new OrdenFiltro();
-                ordenView.Id = orden.Id;
-                ordenView.Descripcion = orden.Descripcion;
-                ordenView.Provincia = _dbContext.Provincias.First( p => p.Id == orden.IdProvincia ).Nombre;
-                ordenView.Importe  = orden.Importe;
-                ordenView.TiempoRealizacion = orden.TiempoRealizacion;
-                ordenView.Usuario = _dbContext.Usuarios.First( u => u.Id == orden.IdUsuario ).Nombre;
-                ordenView.Fecha = orden.Fecha;
-
-                ordenesView.Add( ordenView );
-            }            
-
-            var response = await Task.Run( () => ordenesView );
+        {          
+            var response = await Task.Run( () => _ordenBC.GetOrdenes( ordenFiltro ) );
             return Json( response );
-        }
-
-        [HttpGet]
-        [Route( "GetOrdenesItems" )]
-        public async Task<IActionResult> GetOrdenesItems()
-        {            
-            var response = await _dbContext.OrdenesItems.ToListAsync();
-            return Json( response );
-        }
-
-        [HttpGet]
-        [Route( "GetMateriasPrimas" )]
-        public async Task<IActionResult> GetMateriasPrimas()
-        {
-            var response = await _dbContext.MateriasPrimas.ToListAsync();
-            return Json( response );
-        }
+        }        
     }
 }

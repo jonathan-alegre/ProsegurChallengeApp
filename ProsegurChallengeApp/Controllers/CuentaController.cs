@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ProsegurChallengeApp.Context;
 using ProsegurChallengeApp.Models;
 using System.Security.Claims;
+using ProsegurChallengeApp_DAL.Data;
+using ProsegurChallengeApp_DAL.Models;
+using ProsegurChallengeApp_BAL.Interfaces;
 
 namespace ProsegurChallengeApp.Controllers
 {
@@ -13,14 +15,16 @@ namespace ProsegurChallengeApp.Controllers
     public class CuentaController : Controller
     { 
         private readonly CafeteriaDbContext _dbContext;
+        private readonly IUsuarioBC _usuarioBC;
 
-        public CuentaController( CafeteriaDbContext dbContext )
+        public CuentaController( CafeteriaDbContext dbContext, IUsuarioBC usuarioBC )
         {
             _dbContext = dbContext;
+            _usuarioBC = usuarioBC;
         }
 
-        [ApiExplorerSettings( IgnoreApi = true )]
-        [Route("Login")]
+        [Route( "Login" )]
+        [ApiExplorerSettings( IgnoreApi = true )]        
         public IActionResult Login()
         {
             ClaimsPrincipal c = HttpContext.User;
@@ -35,13 +39,11 @@ namespace ProsegurChallengeApp.Controllers
         [HttpPost]
         [Route( "Login" )]
         [ApiExplorerSettings( IgnoreApi = true )]
-        public async Task<IActionResult> Login( [FromForm] Usuario usuario )
+        public async Task<IActionResult> Login( [FromForm] UsuarioLogin usuario )
         {
             try
-            {
-                UsuarioController usuarioController = new UsuarioController( _dbContext );
-
-                Usuario? validaUsuario = usuarioController.ValidarUsuario( usuario.Nombre, usuario.Password );
+            {                
+                Usuario? validaUsuario = _usuarioBC.UsuarioValido( usuario.Nombre, usuario.Password ).Result;
 
                 if ( validaUsuario != null )
                 {
@@ -77,12 +79,6 @@ namespace ProsegurChallengeApp.Controllers
                 ViewBag.Error = e.Message;
                 return View();
             }
-        }
-
-        [ApiExplorerSettings( IgnoreApi = true )]
-        public IActionResult Details( int id )
-        {
-            return View();
-        }      
+        }        
     }
 }
