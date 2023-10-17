@@ -94,14 +94,20 @@ namespace ProsegurChallengeApp.Controllers
 
             return View();
         }
-      
+
         [HttpPost]
         [Route( "GetOrdenes" )]
-        public async Task<IActionResult> GetOrdenes()
+        public async Task<IActionResult> GetOrdenes( OrdenView ordenFiltro )
         {
-            List<OrdenView> ordenesView = new List<OrdenView>();
+            List<OrdenView> ordenesView = new List<OrdenView>();            
 
-            foreach ( var orden in _dbContext.Ordenes )
+            List<Orden> ordenesFiltradas = _dbContext.Ordenes.Where(
+                                                o => ( string.IsNullOrEmpty( ordenFiltro.Descripcion ) || o.Descripcion.ToUpper().Contains( ordenFiltro.Descripcion.ToUpper() ) ) &&
+                                                     ( ordenFiltro.IdProvincia == null || o.IdProvincia == ordenFiltro.IdProvincia ) &&
+                                                     ( string.IsNullOrEmpty( ordenFiltro.Usuario ) || o.IdUsuario == _dbContext.Usuarios.FirstOrDefault( u => u.Nombre.ToUpper().Contains( ordenFiltro.Usuario.ToUpper() ) ).Id )
+                                           ).ToList();
+
+            foreach ( var orden in ordenesFiltradas )
             {
                 OrdenView ordenView = new OrdenView();
                 ordenView.Id = orden.Id;

@@ -8,6 +8,16 @@
     <button onclick="location.href='@Url.Action("Index", "Orden" )'" class="btn btn-primary">Crear Orden</button>
 </div>
 <br />
+<div class="d-flex flex-row">
+    <div class="align-self-center">Descripción:</div>
+    <div class="p-2"><input type="text" class="form-control" id="txtDescripcion"></div>
+    <div class="align-self-center">Provincia:</div>
+    <div class="p-2"><select class="form-control" asp-items="@(new SelectList(ViewBag.Provincias, "Value", "Text"))" id="drpProvincia"></select></div>
+    <div class="align-self-center">Usuario:</div>
+    <div class="p-2"><input type="text" class="form-control" id="txtUsuario"></div>
+    <div class="p-2"><button type="button" class="btn btn-primary" id="btnBuscarOrdenes">Buscar</button></div>
+</div>
+<hr />
 <table class="table table-bordered table-striped" id='tblOrdenes'>
     <thead class="bg-dark text-white">
         <tr>
@@ -34,23 +44,35 @@
 
     <script type="text/javascript">
 
-        $(document).ready(function() {
+        $(document).ready(function() {            
             CargarOrdenes();
+
+            $("#btnBuscarOrdenes").click(function () {                
+                CargarOrdenes();
+            });
         });
 
+        
+
         function CargarOrdenes() {
-            var columns = [];
+            var columns = [];            
+
+            var ordenFiltro = {
+                "descripcion": $("#txtDescripcion").val() == '' ? null : $("#txtDescripcion").val(),
+                "idProvincia": $("#drpProvincia").val() == '' ? null : $("#drpProvincia").val(),
+                "usuario": $("#txtUsuario").val() == '' ? null : $("#txtUsuario").val()
+            }            
+
             $.ajax({
                 type: "POST",
-                url: "/Orden/GetOrdenes",
+                url: "/Orden/GetOrdenes",                            
+                data: JSON.stringify(ordenFiltro),
+                dataType: "json",
+                contentType: "application/json",
                 success: function(data) {
-                    console.log(data);
-                    // $.each(data, function(key, value) {
-                    //     columns.push([value.descripcion, value.idProvincia, value.importe, value.tiempoRealizacion, value.idUsuario, value.fecha])
-                    // })
-                    // console.log(columns);
-
+                    console.log(data);                    
                     $('#tblOrdenes').DataTable({
+                        destroy: true,
                         data: data,
                         columns: [
                                 { "data": "descripcion" },
