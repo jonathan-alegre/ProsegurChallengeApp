@@ -57,59 +57,48 @@ namespace ProsegurChallengeApp.Controllers
 
         [HttpPost]
         [Route( "CrearOrden" )]
-        public async Task<IActionResult> CrearOrden( [FromForm] Orden orden, [FromForm] IFormCollection fc )
+        public async Task<IActionResult> CrearOrden( OrdenABM orden )
         {
-            if ( ModelState.IsValid )
-            {                                               
-                int idOrden = ( !_dbContext.Ordenes.Any() ? 0 : _dbContext.Ordenes.Max( o => o.Id ) ) + 1;
-                
-                Orden nuevaOrden = new Orden();
-                nuevaOrden.Id = idOrden;
-                nuevaOrden.Descripcion = orden.Descripcion;
-                
-                var items = fc["Items"];                
-                List<Item> itemsSeleccionados = _dbContext.Items.Where( i => items.ToList().Contains( i.Id.ToString() ) ).ToList<Item>();                
+            int idOrden = ( !_dbContext.Ordenes.Any() ? 0 : _dbContext.Ordenes.Max( o => o.Id ) ) + 1;
 
-                foreach ( var item in itemsSeleccionados )
-                {
-                    OrdenItem ordenItem = new OrdenItem() { IdOrden = idOrden, IdItem = item.Id };
-                    _dbContext.OrdenesItems.Add( ordenItem );
-                    await _dbContext.SaveChangesAsync();                    
-                }
+            Orden nuevaOrden = new Orden();
+            nuevaOrden.Id = idOrden;
+            nuevaOrden.Descripcion = orden.Descripcion;            
 
-                var idProvincia = fc["IdProvincia"].ToString();
-                var porcentajeImpuestoProvincia = _dbContext.ProvinciasImpuestos.First( p => p.IdProvincia == int.Parse( idProvincia ) ).PorcentajeImpuesto;
-
-                nuevaOrden.Importe = _dbContext.Items.Where( i => items.ToList().Contains( i.Id.ToString() ) ).Sum( i => i.Precio ) * ( 1 + decimal.Parse( porcentajeImpuestoProvincia.ToString() ) / 100 );
-                nuevaOrden.TiempoRealizacion = _dbContext.Items.Where( i => items.ToList().Contains( i.Id.ToString() ) ).Sum( i => i.TiempoRealizacion );
-                nuevaOrden.IdProvincia = int.Parse( idProvincia );
-                nuevaOrden.IdUsuario = int.Parse( HttpContext.User.Claims.First( x => x.Type == ClaimTypes.NameIdentifier ).Value.ToString() );
-                nuevaOrden.Fecha = DateTime.Now;
-
-                _dbContext.Ordenes.Add( nuevaOrden );
+            foreach ( var idItem in orden.IdsItem )
+            {
+                OrdenItem ordenItem = new OrdenItem() { IdOrden = idOrden, IdItem = idItem };
+                _dbContext.OrdenesItems.Add( ordenItem );
                 await _dbContext.SaveChangesAsync();
-
-                return RedirectToAction( "Index", "Home" );
             }
+            
+            var porcentajeImpuestoProvincia = _dbContext.ProvinciasImpuestos.First( p => p.IdProvincia == orden.IdProvincia ).PorcentajeImpuesto;
 
-            return View();
+            nuevaOrden.Importe = _dbContext.Items.Where( i => orden.IdsItem.ToList().Contains( i.Id ) ).Sum( i => i.Precio ) * ( 1 + decimal.Parse( porcentajeImpuestoProvincia.ToString() ) / 100 );
+            nuevaOrden.TiempoRealizacion = _dbContext.Items.Where( i => orden.IdsItem.ToList().Contains( i.Id ) ).Sum( i => i.TiempoRealizacion );
+            nuevaOrden.IdProvincia = orden.IdProvincia;
+            nuevaOrden.IdUsuario = int.Parse( HttpContext.User.Claims.First( x => x.Type == ClaimTypes.NameIdentifier ).Value.ToString() );
+            nuevaOrden.Fecha = DateTime.Now;
+
+            _dbContext.Ordenes.Add( nuevaOrden );
+            return Ok( await _dbContext.SaveChangesAsync() );
         }
 
         [HttpPost]
         [Route( "GetOrdenes" )]
-        public async Task<IActionResult> GetOrdenes( OrdenView ordenFiltro )
+        public async Task<IActionResult> GetOrdenes( OrdenFiltro ordenFiltro )
         {
-            List<OrdenView> ordenesView = new List<OrdenView>();            
+            List<OrdenFiltro> ordenesView = new List<OrdenFiltro>();            
 
             List<Orden> ordenesFiltradas = _dbContext.Ordenes.Where(
                                                 o => ( string.IsNullOrEmpty( ordenFiltro.Descripcion ) || o.Descripcion.ToUpper().Contains( ordenFiltro.Descripcion.ToUpper() ) ) &&
                                                      ( ordenFiltro.IdProvincia == null || o.IdProvincia == ordenFiltro.IdProvincia ) &&
-                                                     ( string.IsNullOrEmpty( ordenFiltro.Usuario ) || o.IdUsuario == _dbContext.Usuarios.FirstOrDefault( u => u.Nombre.ToUpper().Contains( ordenFiltro.Usuario.ToUpper() ) ).Id )
+                                                     ( string.IsNullOrEmpty( ordenFiltro.Usuario ) || _dbContext.Usuarios.Where( u => u.Nombre.ToUpper().Contains( ordenFiltro.Usuario.ToUpper() ) ).Select( u => u.Id ).Contains( o.Id ) )
                                            ).ToList();
 
             foreach ( var orden in ordenesFiltradas )
             {
-                OrdenView ordenView = new OrdenView();
+                OrdenFiltro ordenView = new OrdenFiltro();
                 ordenView.Id = orden.Id;
                 ordenView.Descripcion = orden.Descripcion;
                 ordenView.Provincia = _dbContext.Provincias.First( p => p.Id == orden.IdProvincia ).Nombre;

@@ -10,26 +10,26 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Index">
+        <form asp-action="Index" id="frmOrden">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="IdProvincia" class="control-label"></label>
                 <select class="form-control" asp-items="@(new SelectList(ViewBag.Provincias, "Value", "Text"))" asp-for="IdProvincia" disabled="disabled"></select>
-                <input type="hidden" asp-for="IdProvincia" />
+                <input type="hidden" asp-for="IdProvincia" id="hdnIdProvincia" />
                 <span asp-validation-for="IdProvincia" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Descripcion" class="control-label"></label>
-                <input asp-for="Descripcion" class="form-control" />
+                <input asp-for="Descripcion" class="form-control" id="txtDescripcion"/>
                 <span asp-validation-for="Descripcion" class="text-danger"></span>
             </div>            
             <div class="form-group">
                 <label asp-for="Items" class="control-label"></label>
-                <select class="form-control" asp-items="@(new SelectList(Model.Items, "Id", "Descripcion"))" asp-for="Items" multiple="multiple" ></select>
+                <select class="form-control" asp-items="@(new SelectList(Model.Items, "Id", "Descripcion"))" asp-for="Items" multiple="multiple" id="drpItem"></select>
                 <span asp-validation-for="Items" class="text-danger"></span>
             </div>            
             <div class="form-group">
-                <input type="submit" value="Crear Orden" class="btn btn-primary" asp-action="CrearOrden" asp-controller="Orden"/>
+                <input type="submit" value="Crear Orden" class="btn btn-primary" id="btnCrearOrden"/>
             </div>
         </form>
     </div>
@@ -41,4 +41,38 @@
         await Html.RenderPartialAsync( "_ValidationScriptsPartial" );
     }
 
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#btnCrearOrden").click(function (e) {
+                e.preventDefault();
+                CrearOrden();
+            });
+        });
+
+        function CrearOrden() {
+            if ($("#frmOrden").valid()) {                
+                var orden = {
+                    "descripcion": $("#txtDescripcion").val(),
+                    "idProvincia": $("#hdnIdProvincia").val(),
+                    "idsItem": $("#drpItem").val()
+                }                
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Orden/CrearOrden",
+                    data: JSON.stringify(orden),
+                    contentType: "application/json",
+                    dataType: "text",
+                    success: function (data) {                        
+                        window.location = window.location.href.replace('Orden/Index', 'Home/Index');
+                    },
+                    failure: function (err) {
+                        console.log(err);
+                    }
+                });
+            }
+        }
+
+    </script>
 }

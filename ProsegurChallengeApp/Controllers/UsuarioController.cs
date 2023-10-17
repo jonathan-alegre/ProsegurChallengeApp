@@ -34,28 +34,18 @@ namespace ProsegurChallengeApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CrearUsuario( [FromForm] CrearUsuarioView usuario )
+        [Route("CrearUsuario")]
+        public async Task<IActionResult> CrearUsuario( UsuarioABM usuario )
         {
-            if ( ModelState.IsValid )
-            {
-                Usuario nuevoUsuario = new Usuario();
-                nuevoUsuario.Id = ( !_dbContext.Usuarios.Any() ? 0 : _dbContext.Usuarios.Max( u => u.Id ) ) + 1;
-                nuevoUsuario.Nombre = usuario.Nombre;
-                nuevoUsuario.Password = usuario.Password;
-                nuevoUsuario.IdProvincia = usuario.IdProvincia;
-                nuevoUsuario.Rol = "Usuario";
+            Usuario nuevoUsuario = new Usuario();
+            nuevoUsuario.Id = ( !_dbContext.Usuarios.Any() ? 0 : _dbContext.Usuarios.Max( u => u.Id ) ) + 1;
+            nuevoUsuario.Nombre = usuario.Nombre;
+            nuevoUsuario.Password = usuario.Password;
+            nuevoUsuario.IdProvincia = usuario.IdProvincia;
+            nuevoUsuario.Rol = "Usuario";
 
-                //var managerUsuario = WebApplication.CreateBuilder().Build().Services.CreateScope().ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
-
-                //managerUsuario.AddToRoleAsync( nuevoUsuario, "Usuario" );
-
-                _dbContext.Usuarios.Add( nuevoUsuario );
-                await _dbContext.SaveChangesAsync();
-
-                return RedirectToAction( "Index", "Home" );
-            }
-
-            return View();
+            _dbContext.Usuarios.Add( nuevoUsuario );
+            return Ok( await _dbContext.SaveChangesAsync() );
         }
 
         [HttpGet]

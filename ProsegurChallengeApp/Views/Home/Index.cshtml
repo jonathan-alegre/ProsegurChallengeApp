@@ -47,13 +47,12 @@
         $(document).ready(function() {            
             CargarOrdenes();
 
-            $("#btnBuscarOrdenes").click(function () {                
+            $("#btnBuscarOrdenes").click(function (e) {                
+                e.preventDefault();
                 CargarOrdenes();
             });
         });
-
         
-
         function CargarOrdenes() {
             var columns = [];            
 
@@ -110,4 +109,4 @@
 
     </script>
 
-                          }
+}

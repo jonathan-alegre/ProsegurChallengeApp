@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ProsegurChallengeApp.Models
 {
-    public class OrdenView
+    public class OrdenFiltro
     {
         [Key]
         public int Id { get; set; }
