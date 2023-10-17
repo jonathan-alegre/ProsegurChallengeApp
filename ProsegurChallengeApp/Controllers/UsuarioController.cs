@@ -45,7 +45,8 @@ namespace ProsegurChallengeApp.Controllers
             nuevoUsuario.Rol = "Usuario";
 
             _dbContext.Usuarios.Add( nuevoUsuario );
-            return Ok( await _dbContext.SaveChangesAsync() );
+            await _dbContext.SaveChangesAsync();
+            return Json( new { success = true, responseText = "Usuario creado. Id: " + nuevoUsuario.Id.ToString() } );
         }
 
         [HttpGet]

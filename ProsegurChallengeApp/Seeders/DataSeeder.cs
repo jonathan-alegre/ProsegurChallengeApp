@@ -66,13 +66,13 @@ namespace ProsegurChallengeApp.Seeders
             var items = new List<Item>
             {
                 new Item { Id=1, Descripcion = "Café Expreso", Precio=750, TiempoRealizacion=15 },
-                new Item { Id=2, Descripcion = "Café Americano", Precio=600, TiempoRealizacion=5 },
+                new Item { Id=2, Descripcion = "Café Americano", Precio=600, TiempoRealizacion=10 },
                 new Item { Id=3, Descripcion = "Macchiato", Precio=1100, TiempoRealizacion=20 },
                 new Item { Id=4, Descripcion = "Flat White", Precio=1200, TiempoRealizacion=18 },
                 new Item { Id=5, Descripcion = "Lágrima", Precio=700, TiempoRealizacion=10 },
                 new Item { Id=6, Descripcion = "Mocaccino", Precio=1300, TiempoRealizacion=20 },
-                new Item { Id=7, Descripcion = "Medialuna", Precio=300, TiempoRealizacion=0 },
-                new Item { Id=8, Descripcion = "Muffin Vainilla Chocochips", Precio=1200, TiempoRealizacion=0 }
+                new Item { Id=7, Descripcion = "Medialuna", Precio=300, TiempoRealizacion=2 },
+                new Item { Id=8, Descripcion = "Muffin Vainilla Chocochips", Precio=1200, TiempoRealizacion=2 }
             };
 
             context.Items.AddRange( items );
@@ -83,14 +83,14 @@ namespace ProsegurChallengeApp.Seeders
         {
             var materiasPrimas = new List<MateriaPrima>
             {
-                new MateriaPrima { Id=1, Descripcion = "Café Arlistán", Precio= 453.75m, Cantidad=50 },
-                new MateriaPrima { Id=2, Descripcion = "Café Colombiano Juan Valdez", Precio=3275.5m, Cantidad=75 },
-                new MateriaPrima { Id=3, Descripcion = "Leche en Polvo", Precio=375.1m, Cantidad=45 },
-                new MateriaPrima { Id=4, Descripcion = "Canela", Precio=2575.4m, Cantidad=10 },
-                new MateriaPrima { Id=5, Descripcion = "Azúcar", Precio=230, Cantidad=150 },
-                new MateriaPrima { Id=6, Descripcion = "Chocolate Águila", Precio=380.45m, Cantidad=25 },
-                new MateriaPrima { Id=7, Descripcion = "Medialuna", Precio=100, Cantidad=100 },
-                new MateriaPrima { Id=8, Descripcion = "Muffin Vainilla Chocochips", Precio=300, Cantidad=150 }
+                new MateriaPrima { Id=1, Descripcion = "Café Arlistán", Precio= 453.75m, Cantidad=1 },
+                new MateriaPrima { Id=2, Descripcion = "Café Colombiano Juan Valdez", Precio=3275.5m, Cantidad=1 },
+                new MateriaPrima { Id=3, Descripcion = "Leche en Polvo", Precio=375.1m, Cantidad=1 },
+                new MateriaPrima { Id=4, Descripcion = "Canela", Precio=2575.4m, Cantidad=1 },
+                new MateriaPrima { Id=5, Descripcion = "Azúcar", Precio=230, Cantidad=2 },
+                new MateriaPrima { Id=6, Descripcion = "Chocolate Águila", Precio=380.45m, Cantidad=1 },
+                new MateriaPrima { Id=7, Descripcion = "Medialuna", Precio=100, Cantidad=3 },
+                new MateriaPrima { Id=8, Descripcion = "Muffin Vainilla Chocochips", Precio=300, Cantidad=4 }
             };
 
             context.MateriasPrimas.AddRange( materiasPrimas );
@@ -114,6 +114,19 @@ namespace ProsegurChallengeApp.Seeders
                 new ItemMateriaPrima{ IdItem=3, IdMateriaPrima=3, CantidadMateriaPrima=0.2m },
                 new ItemMateriaPrima{ IdItem=3, IdMateriaPrima=4, CantidadMateriaPrima=0.05m },
                 new ItemMateriaPrima{ IdItem=3, IdMateriaPrima=5, CantidadMateriaPrima=0.01m },
+                //FlatWhite
+                new ItemMateriaPrima{ IdItem=4, IdMateriaPrima=1, CantidadMateriaPrima=0.5m },
+                new ItemMateriaPrima{ IdItem=4, IdMateriaPrima=3, CantidadMateriaPrima=0.5m },
+                new ItemMateriaPrima{ IdItem=4, IdMateriaPrima=5, CantidadMateriaPrima=0.2m },
+                 //Lagrima
+                new ItemMateriaPrima{ IdItem=5, IdMateriaPrima=1, CantidadMateriaPrima=0.2m },
+                new ItemMateriaPrima{ IdItem=5, IdMateriaPrima=3, CantidadMateriaPrima=0.5m },
+                new ItemMateriaPrima{ IdItem=5, IdMateriaPrima=5, CantidadMateriaPrima=0.1m },
+                //Mocaccino
+                new ItemMateriaPrima{ IdItem=6, IdMateriaPrima=2, CantidadMateriaPrima=0.120m },
+                new ItemMateriaPrima{ IdItem=6, IdMateriaPrima=3, CantidadMateriaPrima=0.4m },                
+                new ItemMateriaPrima{ IdItem=6, IdMateriaPrima=5, CantidadMateriaPrima=0.1m },
+                new ItemMateriaPrima{ IdItem=6, IdMateriaPrima=6, CantidadMateriaPrima=0.5m },                               
                 //Medialuna
                 new ItemMateriaPrima{ IdItem=7, IdMateriaPrima=7, CantidadMateriaPrima=1 },
                 //Muffin Vainilla Chocochips

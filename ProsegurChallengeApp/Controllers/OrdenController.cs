@@ -69,7 +69,15 @@ namespace ProsegurChallengeApp.Controllers
             {
                 OrdenItem ordenItem = new OrdenItem() { IdOrden = idOrden, IdItem = idItem };
                 _dbContext.OrdenesItems.Add( ordenItem );
-                await _dbContext.SaveChangesAsync();
+                
+                foreach ( var materiaPrimaItem in _dbContext.ItemsMateriasPrimas.Where( m => m.IdItem == idItem ).ToList() )
+                {
+                    var materiaPrima = _dbContext.MateriasPrimas.First(m=> m.Id ==  materiaPrimaItem.IdMateriaPrima);
+                    if ( materiaPrima.Cantidad - materiaPrimaItem.CantidadMateriaPrima >= 0 )
+                        materiaPrima.Cantidad -= materiaPrimaItem.CantidadMateriaPrima;
+                    else
+                        return Json( new { success = false, responseText = "Hay Materias Primas insuficientes para crear la Orden." } );
+                }
             }
             
             var porcentajeImpuestoProvincia = _dbContext.ProvinciasImpuestos.First( p => p.IdProvincia == orden.IdProvincia ).PorcentajeImpuesto;
@@ -81,7 +89,8 @@ namespace ProsegurChallengeApp.Controllers
             nuevaOrden.Fecha = DateTime.Now;
 
             _dbContext.Ordenes.Add( nuevaOrden );
-            return Ok( await _dbContext.SaveChangesAsync() );
+            await _dbContext.SaveChangesAsync();
+            return Json( new { success = true, responseText = "Orden creada. Id: " + idOrden.ToString() } );
         }
 
         [HttpPost]
@@ -119,6 +128,14 @@ namespace ProsegurChallengeApp.Controllers
         public async Task<IActionResult> GetOrdenesItems()
         {            
             var response = await _dbContext.OrdenesItems.ToListAsync();
+            return Json( response );
+        }
+
+        [HttpGet]
+        [Route( "GetMateriasPrimas" )]
+        public async Task<IActionResult> GetMateriasPrimas()
+        {
+            var response = await _dbContext.MateriasPrimas.ToListAsync();
             return Json( response );
         }
     }
