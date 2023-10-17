@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProsegurChallengeApp_DAL.Models;
+using ProsegurChallengeApp_DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

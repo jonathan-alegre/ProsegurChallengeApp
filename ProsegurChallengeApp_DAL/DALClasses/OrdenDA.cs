@@ -1,8 +1,8 @@
 ﻿using ProsegurChallengeApp_DAL.Data;
-using ProsegurChallengeApp_DAL.Models;
 using ProsegurChallengeApp_DAL.Interfaces;
-using ProsegurChallengeApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using ProsegurChallengeApp_DAL.Entities;
+using ProsegurChallengeApp_DAL.Models;
 
 namespace ProsegurChallengeApp_DAL.OrdenDAL
 {
@@ -33,9 +33,9 @@ namespace ProsegurChallengeApp_DAL.OrdenDAL
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<OrdenDataTable>> GetOrdenes( OrdenFiltro ordenFiltro )
+        public async Task<List<OrdenDataTableDto>> GetOrdenes( OrdenFiltroDto ordenFiltro )
         {
-            List<OrdenDataTable> ordenesDT = new List<OrdenDataTable>();
+            List<OrdenDataTableDto> ordenesDT = new List<OrdenDataTableDto>();
 
             List<Orden> ordenesFiltradas = _dbContext.Ordenes.Where(
                                                 o => ( string.IsNullOrEmpty( ordenFiltro.Descripcion ) || o.Descripcion.ToUpper().Contains( ordenFiltro.Descripcion.ToUpper() ) ) &&
@@ -45,7 +45,7 @@ namespace ProsegurChallengeApp_DAL.OrdenDAL
 
             foreach ( var orden in ordenesFiltradas )
             {
-                OrdenDataTable ordenView = new OrdenDataTable();
+                OrdenDataTableDto ordenView = new OrdenDataTableDto();
                 ordenView.Id = orden.Id;
                 ordenView.Descripcion = orden.Descripcion;
                 ordenView.Provincia = _dbContext.Provincias.First( p => p.Id == orden.IdProvincia ).Nombre;

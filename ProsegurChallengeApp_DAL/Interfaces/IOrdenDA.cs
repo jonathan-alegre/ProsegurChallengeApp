@@ -1,4 +1,4 @@
-﻿using ProsegurChallengeApp.Models;
+﻿using ProsegurChallengeApp_DAL.Entities;
 using ProsegurChallengeApp_DAL.Models;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace ProsegurChallengeApp_DAL.Interfaces
     public interface IOrdenDA
     {
         Task CrearOrden( Orden orden, int[] idsItem );
-        Task<List<OrdenDataTable>> GetOrdenes( OrdenFiltro ordenFiltro );
+        Task<List<OrdenDataTableDto>> GetOrdenes( OrdenFiltroDto ordenFiltro );
         public int GetNuevoId();
     }
 }

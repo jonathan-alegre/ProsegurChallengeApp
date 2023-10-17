@@ -10,8 +10,8 @@ using System.Text.RegularExpressions;
 using ProsegurChallengeApp_DAL.OrdenDAL;
 using ProsegurChallengeApp_BAL.Interfaces;
 using ProsegurChallengeApp_DAL.Interfaces;
-using ProsegurChallengeApp.Models;
 using ProsegurChallengeApp_BAL.BALClasses;
+using ProsegurChallengeApp_DAL.Entities;
 
 namespace ProsegurChallengeApp_BAL.OrdenBAL
 {
@@ -30,7 +30,7 @@ namespace ProsegurChallengeApp_BAL.OrdenBAL
             _iMateriaPrimaBC = iMateriaPrimaBC;
         }
 
-        public async Task<IActionResult> CrearOrden( OrdenABM orden )
+        public async Task<IActionResult> CrearOrden( OrdenABMDto orden )
         {
             if ( !_iMateriaPrimaBC.CantidadMateriasPrimasSuficientesParaItems( orden.IdsItem ) )
             {
@@ -55,7 +55,7 @@ namespace ProsegurChallengeApp_BAL.OrdenBAL
             return new JsonResult( new { success = true, responseText = "Orden creada. Id: " + idOrden.ToString() } );
         }
 
-        public async Task<List<OrdenDataTable>> GetOrdenes( OrdenFiltro ordenFiltro )
+        public async Task<List<OrdenDataTableDto>> GetOrdenes( OrdenFiltroDto ordenFiltro )
         {
             return await Task.Run( () => _ordenDA.GetOrdenes( ordenFiltro ) );
         }

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProsegurChallengeApp.Models;
 using ProsegurChallengeApp_DAL.Models;
 using System;
 using System.Collections.Generic;
@@ -11,7 +10,7 @@ namespace ProsegurChallengeApp_BAL.Interfaces
 {
     public interface IOrdenBC
     {
-        Task<IActionResult> CrearOrden( OrdenABM orden );
-        Task<List<OrdenDataTable>> GetOrdenes( OrdenFiltro ordenFiltro );
+        Task<IActionResult> CrearOrden( OrdenABMDto orden );
+        Task<List<OrdenDataTableDto>> GetOrdenes( OrdenFiltroDto ordenFiltro );
     }
 }

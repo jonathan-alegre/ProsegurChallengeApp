@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ProsegurChallengeApp_DAL.Models;
+using ProsegurChallengeApp_DAL.Entities;
 
 namespace ProsegurChallengeApp_DAL.Data
 {

@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ProsegurChallengeApp_DAL.Models
+namespace ProsegurChallengeApp_DAL.Entities
 {
     public class MateriaPrima
     {
         [Key]
-        public int Id { get; set; }        
+        public int Id { get; set; }
 
         [Required]
         public string Descripcion { get; set; }
@@ -14,6 +14,6 @@ namespace ProsegurChallengeApp_DAL.Models
         public decimal Precio { get; set; }
 
         [Required]
-        public decimal Cantidad { get; set; }     
+        public decimal Cantidad { get; set; }
     }
 }

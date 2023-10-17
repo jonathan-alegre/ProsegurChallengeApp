@@ -1,11 +1,11 @@
-﻿using ProsegurChallengeApp_DAL.Models;
+﻿using ProsegurChallengeApp_DAL.Entities;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ProsegurChallengeApp.Models
+namespace ProsegurChallengeApp_DAL.Models
 {
-    public class UsuarioLogin
+    public class UsuarioLoginViewModel
     {
         [Key]
         public int Id { get; set; }

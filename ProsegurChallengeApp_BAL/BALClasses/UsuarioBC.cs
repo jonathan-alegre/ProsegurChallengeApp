@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using ProsegurChallengeApp_BAL.Interfaces;
 using ProsegurChallengeApp_DAL.Data;
+using ProsegurChallengeApp_DAL.Entities;
 using ProsegurChallengeApp_DAL.Interfaces;
-using ProsegurChallengeApp_DAL.Models;
 using ProsegurChallengeApp_DAL.OrdenDAL;
 using System;
 using System.Collections.Generic;

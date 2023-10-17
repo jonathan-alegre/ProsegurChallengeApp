@@ -1,6 +1,6 @@
 ﻿namespace ProsegurChallengeApp_DAL.Models
 {
-    public class OrdenABM
+    public class OrdenABMDto
     {   
         public string Descripcion { get; set; }
 

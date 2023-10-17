@@ -1,6 +1,6 @@
-﻿namespace ProsegurChallengeApp.Models
+﻿namespace ProsegurChallengeApp_DAL.Models
 {
-    public class OrdenDataTable
+    public class OrdenDataTableDto
     {        
         public int Id { get; set; }
 

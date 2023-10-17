@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProsegurChallengeApp_DAL.Data;
+using ProsegurChallengeApp_DAL.Entities;
 using ProsegurChallengeApp_DAL.Interfaces;
-using ProsegurChallengeApp_DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

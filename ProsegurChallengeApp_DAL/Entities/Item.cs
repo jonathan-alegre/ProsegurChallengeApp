@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ProsegurChallengeApp_DAL.Models
+namespace ProsegurChallengeApp_DAL.Entities
 {
     public class Item
     {
         [Key]
-        public int Id { get; set; }        
+        public int Id { get; set; }
 
         [Required]
         public string Descripcion { get; set; }

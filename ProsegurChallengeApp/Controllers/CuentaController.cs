@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ProsegurChallengeApp.Models;
 using System.Security.Claims;
 using ProsegurChallengeApp_DAL.Data;
-using ProsegurChallengeApp_DAL.Models;
 using ProsegurChallengeApp_BAL.Interfaces;
+using ProsegurChallengeApp_DAL.Entities;
+using ProsegurChallengeApp_DAL.Models;
 
 namespace ProsegurChallengeApp.Controllers
 {
@@ -39,7 +39,7 @@ namespace ProsegurChallengeApp.Controllers
         [HttpPost]
         [Route( "Login" )]
         [ApiExplorerSettings( IgnoreApi = true )]
-        public async Task<IActionResult> Login( [FromForm] UsuarioLogin usuario )
+        public async Task<IActionResult> Login( [FromForm] UsuarioLoginViewModel usuario )
         {
             try
             {                

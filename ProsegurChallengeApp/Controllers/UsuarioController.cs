@@ -3,12 +3,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using ProsegurChallengeApp.Models;
 using ProsegurChallengeApp_BAL.BALClasses;
 using ProsegurChallengeApp_BAL.Interfaces;
 using ProsegurChallengeApp_BAL.OrdenBAL;
 using ProsegurChallengeApp_DAL.Data;
-using ProsegurChallengeApp_DAL.Models;
+using ProsegurChallengeApp_DAL.Entities;
 
 namespace ProsegurChallengeApp.Controllers
 {

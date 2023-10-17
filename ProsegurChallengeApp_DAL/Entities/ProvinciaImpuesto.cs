@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ProsegurChallengeApp_DAL.Models
+namespace ProsegurChallengeApp_DAL.Entities
 {
     public class ProvinciaImpuesto
     {
@@ -10,9 +10,9 @@ namespace ProsegurChallengeApp_DAL.Models
         public int IdProvincia { get; set; }
 
         [ForeignKey("IdProvincia")]
-        public  Provincia Provincia { get; set; }
+        public Provincia Provincia { get; set; }
 
         [Required]
-        public decimal PorcentajeImpuesto { get; set; }        
+        public decimal PorcentajeImpuesto { get; set; }
     }
 }
