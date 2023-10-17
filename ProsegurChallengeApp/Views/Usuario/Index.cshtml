@@ -1,5 +1,4 @@
-﻿@model ProsegurChallengeApp.Models.CrearUsuarioView
-
+﻿@model ProsegurChallengeApp.Models.UsuarioABM
 @{    
     ViewData["Title"] = "Crear Usuario";
 }
@@ -55,7 +54,8 @@
                 var usuario = {
                     "nombre": $("#txtNombre").val(),
                     "idProvincia": $("#drpProvincia").val(),
-                    "password": $("#txtPassword").val()
+                    "password": $("#txtPassword").val(),
+                    "rol": "Usuario"
                 }
 
                 $.ajax({
@@ -64,8 +64,12 @@
                     data: JSON.stringify(usuario),                    
                     contentType: "application/json",
                     dataType: "text",
-                    success: function (data) {                        
-                        window.location = window.location.href.replace('Usuario/Index', 'Home/Index');
+                    success: function (data) {
+                        var response = JSON.parse(data);                        
+                        if (response.success)
+                            window.location = window.location.href.replace('Usuario/Index', 'Home/Index');
+                        else
+                            alert(response.responseText);                        
                     },
                     failure: function (err) {
                         console.log(err);

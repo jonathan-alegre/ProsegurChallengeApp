@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using ProsegurChallengeApp.Context;
+using ProsegurChallengeApp_DAL.Data;
+using ProsegurChallengeApp_BAL.Interfaces;
+using ProsegurChallengeApp.Utils;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ProsegurChallengeApp.Controllers
@@ -15,20 +17,21 @@ namespace ProsegurChallengeApp.Controllers
     public class HomeController : Controller
     {
         private readonly CafeteriaDbContext _dbContext;
+        private readonly IProvinciaBC _provinciaBC;
 
-        public HomeController( CafeteriaDbContext dbContext )
+        public HomeController( CafeteriaDbContext dbContext, IProvinciaBC provinciaBC )
         {
             _dbContext = dbContext;
+            _provinciaBC = provinciaBC;
         }
 
         [Route( "Index" )]
         [ApiExplorerSettings( IgnoreApi = true )]
         public IActionResult Index()
         {
-            var provincias = _dbContext.Provincias.Select
-                            ( x => new SelectListItem { Value = x.Id.ToString(), Text = x.Nombre } ).ToList();
-
-            provincias.Insert( 0, new SelectListItem { Value = null, Text = null } );
+            var provincias = _provinciaBC.GetListItemProvincias();
+    
+            Utils.Utils.InsertNullValueToListItem( provincias );
 
             ViewBag.Provincias = provincias;
 
@@ -41,12 +44,6 @@ namespace ProsegurChallengeApp.Controllers
         {
             await HttpContext.SignOutAsync( CookieAuthenticationDefaults.AuthenticationScheme );
             return RedirectToAction( "Login" , "Cuenta" );
-        }
-
-        [ApiExplorerSettings( IgnoreApi = true )]
-        public IActionResult Privacy()
-        {
-            return View();
-        }      
+        }        
     }
 }

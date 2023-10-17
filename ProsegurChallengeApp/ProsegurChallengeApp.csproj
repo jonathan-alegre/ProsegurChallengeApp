@@ -19,6 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ProsegurChallengeApp_BAL\ProsegurChallengeApp_BAL.csproj" />
+    <ProjectReference Include="..\ProsegurChallengeApp_DAL\ProsegurChallengeApp_DAL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="Views\Home\Index.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -26,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DAL\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>

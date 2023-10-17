@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProsegurChallengeApp", "ProsegurChallengeApp\ProsegurChallengeApp.csproj", "{ADE0BE4B-E125-42F7-B57C-9262C9B35C36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProsegurChallengeApp", "ProsegurChallengeApp\ProsegurChallengeApp.csproj", "{ADE0BE4B-E125-42F7-B57C-9262C9B35C36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProsegurChallengeApp_DAL", "ProsegurChallengeApp_DAL\ProsegurChallengeApp_DAL.csproj", "{5191C320-B32A-4452-92C8-E92B36586E29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProsegurChallengeApp_BAL", "ProsegurChallengeApp_BAL\ProsegurChallengeApp_BAL.csproj", "{59031487-4840-4939-95B3-ED4A8D34437B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{ADE0BE4B-E125-42F7-B57C-9262C9B35C36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADE0BE4B-E125-42F7-B57C-9262C9B35C36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADE0BE4B-E125-42F7-B57C-9262C9B35C36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5191C320-B32A-4452-92C8-E92B36586E29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5191C320-B32A-4452-92C8-E92B36586E29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5191C320-B32A-4452-92C8-E92B36586E29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5191C320-B32A-4452-92C8-E92B36586E29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59031487-4840-4939-95B3-ED4A8D34437B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59031487-4840-4939-95B3-ED4A8D34437B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59031487-4840-4939-95B3-ED4A8D34437B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59031487-4840-4939-95B3-ED4A8D34437B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
