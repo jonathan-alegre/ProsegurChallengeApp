@@ -22,11 +22,11 @@ namespace ProsegurChallengeApp_BAL.OrdenBAL
         public readonly IItemBC _itemsBC;
         public readonly IMateriaPrimaBC _iMateriaPrimaBC;
 
-        public OrdenBC( IOrdenDA ordenDA, IProvinciaImpuestoBC provinciaImpuestoBC, IItemBC itemsBC, IMateriaPrimaBC iMateriaPrimaBC )
+        public OrdenBC( IOrdenDA ordenDA, IProvinciaImpuestoBC provinciaImpuestoBC, IItemBC itemBC, IMateriaPrimaBC iMateriaPrimaBC )
         {
             _ordenDA = ordenDA;
             _provinciaImpuestoBC = provinciaImpuestoBC;
-            _itemsBC = itemsBC;
+            _itemsBC = itemBC;
             _iMateriaPrimaBC = iMateriaPrimaBC;
         }
 
@@ -34,7 +34,7 @@ namespace ProsegurChallengeApp_BAL.OrdenBAL
         {
             if ( !_iMateriaPrimaBC.CantidadMateriasPrimasSuficientesParaItems( orden.IdsItem ) )
             {
-                return new JsonResult( new { success = false, responseText = "Hay Materias Primas insuficientes para crear la Orden." } );
+                return new JsonResult( new { success = false, responseText = "Hay Materias Primas insuficientes para crear la Orden." } );                
             }
 
             int idOrden = _ordenDA.GetNuevoId();
@@ -52,7 +52,7 @@ namespace ProsegurChallengeApp_BAL.OrdenBAL
             nuevaOrden.Fecha = DateTime.Now;
 
             await _ordenDA.CrearOrden( nuevaOrden, orden.IdsItem );
-            return new JsonResult( new { success = true, responseText = "Orden creada. Id: " + idOrden.ToString() } );
+            return new JsonResult( new { success = true, responseText = "Orden creada." } );
         }
 
         public async Task<List<OrdenDataTableDto>> GetOrdenes( OrdenFiltroDto ordenFiltro )
